@@ -24,15 +24,28 @@ repositories {
 }
 
 dependencies {
+	// Spring Boot and JPA
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	compileOnly 'org.projectlombok:lombok'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+
+	// MySQL Connector
 	runtimeOnly 'com.mysql:mysql-connector-j'
+
+	// Cloudinary
+	implementation 'com.cloudinary:cloudinary-http44:1.37.0'
+
+	// Lombok for reducing boilerplate code
+	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
+
+	// Testing dependencies
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+	// Mail functionality
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
 }
 
 tasks.named('test') {
