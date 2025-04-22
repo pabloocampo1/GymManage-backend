@@ -1,4 +1,4 @@
-package com.GymManager.Backend.web.security.securityConfig;
+package com.GymManager.Backend.web.security;
 
 
 import org.springframework.context.annotation.Bean;
@@ -16,13 +16,13 @@ public class CorsConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource () {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://localhost:5173/"));
+        configuration.setAllowedOrigins(List.of("http://localhost:5173"));
         configuration.setAllowedMethods(List.of("POST", "DELETE", "UPDATE", "GET", "PUT"));
-        configuration.setExposedHeaders(List.of("Authorization"));
+
         configuration.setAllowedHeaders(List.of("*"));
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("**", configuration);
+        source.registerCorsConfiguration("/**", configuration);
 
         return source;
 
