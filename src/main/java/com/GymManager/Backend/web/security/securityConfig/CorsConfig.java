@@ -1,4 +1,4 @@
-package com.GymManager.Backend.web.security;
+package com.GymManager.Backend.web.security.securityConfig;
 
 
 import org.springframework.context.annotation.Bean;
