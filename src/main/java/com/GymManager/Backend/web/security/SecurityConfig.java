@@ -28,8 +28,9 @@ public class SecurityConfig {
                     request.requestMatchers(HttpMethod.POST, "/api/auth/singUp").permitAll();
                     request.requestMatchers(HttpMethod.POST, "/api/auth/singIn").permitAll();
                     request.requestMatchers( "/api/inventory/**").permitAll();
+                    request.requestMatchers( "/api/contact/**").permitAll();
                     request.requestMatchers( "/api/Eventos/**").permitAll();
-
+                    request.requestMatchers( "/api/contact/send/**").permitAll();
                     request.anyRequest().authenticated();
                 })
                 .httpBasic(Customizer.withDefaults());
