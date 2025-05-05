@@ -3,6 +3,7 @@ package com.GymManager.Backend.persistence.JpaServiceImpl;
 
 
 import com.GymManager.Backend.domain.dto.InventarioDto;
+import com.GymManager.Backend.domain.dto.InventarioEstadoDto;
 import com.GymManager.Backend.domain.repository.InventarioRepository;
 import com.GymManager.Backend.domain.service.InventarioService;
 import com.GymManager.Backend.infrastrucutre.CloudinaryService;
@@ -82,4 +83,14 @@ public class InventarioServiceImpl implements InventarioService {
             throw new RuntimeException("Error al subir la imagen a Cloudinary", e);
         }
     }
+    @Override
+    public void bulkUpdateEstado(List<InventarioEstadoDto> updates) {
+        updates.forEach(update -> {
+            Inventario entity = inventarioRepository.findById(update.getId())
+                    .orElseThrow(() -> new RuntimeException("Inventario no encontrado con ID: " + update.getId()));
+            entity.setEstado(update.getEstado());
+            inventarioRepository.save(entity);
+        });
+    }
+
 }

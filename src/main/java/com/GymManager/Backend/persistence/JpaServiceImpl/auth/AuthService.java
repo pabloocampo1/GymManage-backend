@@ -127,7 +127,7 @@ public class AuthService {
 
             ResetPasswordToken token1 = new ResetPasswordToken(email, expirationDate, token);
             ResetPasswordToken save = this.resetPasswordTokenRepository.save(token1);
-            System.out.println(" se guardo");
+
             return emailServiceResetPassword.sendHtmlEmail(email, token);
         } catch (Exception e) {
             return false;
