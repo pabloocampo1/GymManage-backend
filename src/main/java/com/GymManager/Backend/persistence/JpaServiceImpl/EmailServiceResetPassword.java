@@ -37,6 +37,7 @@ public class EmailServiceResetPassword {
             helper.setText(htmlBody, true);
 
             mailSender.send(message);
+            System.out.println("se envio el email");
           return true;
         } catch (MessagingException e) {
            return false;

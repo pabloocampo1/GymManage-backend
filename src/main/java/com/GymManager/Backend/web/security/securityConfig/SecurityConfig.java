@@ -27,6 +27,7 @@ public class SecurityConfig {
     private CorsConfig corsConfig;
 
     private final String ROLE_ADMIN = "ADMIN";
+    private final String ROLE_SUPERADMIN = "SUPERADMIN";
 
     @Autowired
     private JwtFilter jwtFilter;
@@ -68,14 +69,7 @@ public class SecurityConfig {
 
 }
 
-/*
-* del front me llega un email, ese email lo busco en la base de datos  y traigo al usuario que le correspe, me trae el usuario que es ya que mis usuarios no pueden tener el mismo correo, luego, luego, creo un id ramdom muy largo, y luego lo guardo en un registro
-* en mi db junto con el email del usuario , su token y la fecha de expiracion, luego de tener eso creado lo envio al correo del usuario, y luego de eso eso pued ya recibo ese token, lo busco en la base de datos, si esta y es valido
-* (la fecha) entonces en la base de datos cambio la contraseña, pero antes de eso la encrypto la que me llego del front y listo, devuelvo un ok y ya el fronmt lo lee y que lo dirija al /login
-*
-*
-*
-* */
+
 
 
 
