@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.parser.Entity;
+
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -32,4 +34,16 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public UserEntity getUserByEmail(String email) {
+        return this.userRepository.findByUserByEmail(email);
+    }
+
+    @Override
+    public UserEntity updateUser(UserEntity userEntity) {
+       return this.userRepository.updateUser(userEntity);
+    }
+
+
 }

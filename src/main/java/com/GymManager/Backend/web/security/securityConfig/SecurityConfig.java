@@ -42,7 +42,10 @@ public class SecurityConfig {
                 .authorizeHttpRequests(request -> {
                     request.requestMatchers(HttpMethod.POST, "/api/auth/signIn").permitAll();
                     request.requestMatchers(HttpMethod.GET, "/api/auth/validate/*").permitAll();
+                    request.requestMatchers(HttpMethod.GET, "/api/auth/generateResetPasswordToken/**").permitAll();
                     request.requestMatchers(HttpMethod.POST, "/api/user/save").permitAll();
+                    request.requestMatchers(HttpMethod.POST, "/api/auth/resetPassword").permitAll();
+                    request.requestMatchers(HttpMethod.GET, "/api/auth/isValidTokenResetPassword/*").permitAll();
                     request.requestMatchers( "/api/inventory/**").hasRole(ROLE_ADMIN);
                     request.requestMatchers( "/api/Eventos/**").hasRole(ROLE_ADMIN);
                     request.anyRequest().authenticated();

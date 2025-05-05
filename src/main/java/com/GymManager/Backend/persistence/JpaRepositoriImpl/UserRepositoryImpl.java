@@ -29,9 +29,6 @@ public class UserRepositoryImpl implements UserRepository {
     @Autowired
     private final RoleUserCrudRepository roleUserCrudRepository;
 
-
-
-
     @Override
     public UserResponseDto save(UserRequestDto user) {
         UserEntity newUser = this.userMapper.toEntity(user);
@@ -48,6 +45,15 @@ public class UserRepositoryImpl implements UserRepository {
                 .build();
     }
 
+    @Override
+    public UserEntity findByUserByEmail(String email) {
+        return  this.userCrudRepository.findByEmailAndAvailableTrue(email)
+                .orElseThrow(() -> new IllegalArgumentException("no found"));
+    }
 
+    @Override
+    public UserEntity updateUser(UserEntity user) {
+        return this.userCrudRepository.save(user);
+    }
 
 }
