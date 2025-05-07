@@ -18,6 +18,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -27,6 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.swing.text.html.parser.Entity;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.Collection;
 import java.util.Date;
 import java.util.UUID;
 
@@ -66,12 +68,20 @@ public class AuthService {
         try {
             Authentication authentication = this.isAutheticate(username, password);
             UserDetails user = (UserDetails) authentication.getPrincipal();
-            String jwt = this.createjwt(user.getUsername(), user.getAuthorities().toString());
+            Collection<? extends GrantedAuthority> authorities = user.getAuthorities();
+            String role = user.getAuthorities()
+                    .stream()
+                    .findFirst()
+                    .get()
+                    .getAuthority();
+
+            String jwt = this.createjwt(user.getUsername(), role);
+            System.out.println(role);
             return AuthResponseDto
                     .builder()
                     .message("logged success")
                     .username(user.getUsername())
-                    .role(user.getAuthorities().toString())
+                    .role(role)
                     .jwt(jwt)
                     .status(true)
                     .build();
@@ -103,6 +113,7 @@ public class AuthService {
     }
 
     public Boolean generateTokenByResetPassword(String email) {
+
         this.resetPasswordTokenRepository.deleteByExpirateDateBefore(new Date());
         UserEntity user = this.userService.getUserByEmail(email);
         if (!user.getAvailable()) {

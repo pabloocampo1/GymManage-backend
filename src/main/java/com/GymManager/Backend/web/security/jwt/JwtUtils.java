@@ -37,6 +37,16 @@ public class JwtUtils implements iJwtService {
         }
     }
 
+    public String getRole(String token) {
+        Algorithm algorithm = Algorithm.HMAC256(SECRET_KEY);
+        return JWT.require(algorithm)
+                .build()
+                .verify(token)
+                .getClaim("authority")
+                .asString();
+    }
+
+
     @Override
     public String getUser( @Valid String jwt){
         Algorithm algorithm = Algorithm.HMAC256(SECRET_KEY);

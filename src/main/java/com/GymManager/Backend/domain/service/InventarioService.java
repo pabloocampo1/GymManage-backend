@@ -2,6 +2,7 @@ package com.GymManager.Backend.domain.service;
 
 
 import com.GymManager.Backend.domain.dto.InventarioDto;
+import com.GymManager.Backend.domain.dto.InventarioEstadoDto;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -13,4 +14,6 @@ public interface InventarioService {
     void delete(Long id);
     InventarioDto update(InventarioDto inventarioDto);
     String uploadImage(MultipartFile imagen);
+    void bulkUpdateEstado(List<InventarioEstadoDto> updates);
+
 }

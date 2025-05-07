@@ -22,6 +22,7 @@ public class UserController {
 
     @PostMapping("/save")
     public ResponseEntity<UserResponseDto> save(@Valid @RequestBody UserRequestDto userRequestDto){
+        System.out.println(userRequestDto);
         try{
             return  new ResponseEntity<>(this.userService.saveUser(userRequestDto), HttpStatus.CREATED);
         } catch (Exception e) {
