@@ -35,6 +35,7 @@ public class UserRepositoryImpl implements UserRepository {
         RoleUserEntity role = this.roleUserCrudRepository.findById(1)
                 .orElseThrow(() -> new UsernameNotFoundException("no se encontro el id"));
         newUser.setRole(role);
+        newUser.setAvailable(true);
         newUser.setPassword(passwordEncoder.encode(user.getPassword()));
 
         this.userCrudRepository.save(newUser);
