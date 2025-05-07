@@ -28,6 +28,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponseDto saveUser(UserRequestDto user) {
+        System.out.println("primera llegada manco : " + user);
         try{
            return this.userRepository.save(user);
         } catch (Exception e) {

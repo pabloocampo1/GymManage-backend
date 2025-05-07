@@ -46,6 +46,8 @@ public class UserRepositoryImpl implements UserRepository {
                 .build();
     }
 
+
+
     @Override
     public UserEntity findByUserByEmail(String email) {
         return  this.userCrudRepository.findByEmailAndAvailableTrue(email)

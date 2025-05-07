@@ -1,8 +1,9 @@
-// src/main/java/com/Prueba/ClodinaryRest/Web/Controller/InventarioController.java
+
 package com.GymManager.Backend.web.controller;
 
 
 import com.GymManager.Backend.domain.dto.InventarioDto;
+import com.GymManager.Backend.domain.dto.InventarioEstadoDto;
 import com.GymManager.Backend.domain.service.InventarioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -42,6 +43,11 @@ public class InventarioController {
         inventarioDto.setImagenFile(imagen);
 
         return inventarioService.save(inventarioDto);
+    }
+    @PutMapping("/updateEstados")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void bulkUpdateEstados(@RequestBody List<InventarioEstadoDto> estadosDto) {
+        inventarioService.bulkUpdateEstado(estadosDto);
     }
 
     @GetMapping
