@@ -47,9 +47,10 @@ public class SecurityConfig {
                     request.requestMatchers(HttpMethod.POST, "/api/user/save").permitAll();
                     request.requestMatchers(HttpMethod.POST, "/api/auth/resetPassword").permitAll();
                     request.requestMatchers(HttpMethod.GET, "/api/auth/isValidTokenResetPassword/*").permitAll();
-                    request.requestMatchers( "/api/inventory/**").hasRole(ROLE_SUPERADMIN);
-                    request.requestMatchers( "/api/Eventos/**").permitAll();
-                    request.requestMatchers( "/api/miembros/**").permitAll();
+                    request.requestMatchers( "/api/inventory/**").hasRole(ROLE_ADMIN);
+                    request.requestMatchers( "/api/Eventos/**").hasRole(ROLE_ADMIN);
+                    request.requestMatchers( "/api/miembros/**").hasRole(ROLE_ADMIN);
+                    request.requestMatchers( "/api/membresias/**").permitAll();
                     request.anyRequest().authenticated();
                 })
                 .httpBasic(Customizer.withDefaults())
