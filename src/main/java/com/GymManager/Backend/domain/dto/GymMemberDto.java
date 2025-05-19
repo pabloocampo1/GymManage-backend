@@ -8,7 +8,7 @@ import java.time.LocalDate;
 @Data
 public class GymMemberDto {
 
-    @NotBlank(message = "La identificación es obligatoria.")
+    @NotNull(message = "La identificación es obligatoria.")
     public Long identificationNumber;
 
     @NotBlank(message = "El nombre completo es obligatorio.")
@@ -17,7 +17,7 @@ public class GymMemberDto {
     @NotNull(message = "La fecha de nacimiento es obligatoria.")
     public LocalDate birthDate;
 
-    @NotBlank(message = "El teléfono es obligatorio.")
+    @NotNull(message = "El teléfono es obligatorio.")
     public Long phone;
 
     @Email(message = "Correo electrónico inválido.")

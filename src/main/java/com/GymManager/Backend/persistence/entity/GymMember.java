@@ -1,28 +1,28 @@
 package com.GymManager.Backend.persistence.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
 @Getter
 @Setter
 public class GymMember {
 
     @Id
-    @NotBlank(message = "El número de identificación es obligatorio")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @NotNull(message = "El número de identificación es obligatorio")
     private Long identificationNumber;
 
     @NotBlank(message = "El nombre completo es obligatorio")
@@ -31,7 +31,7 @@ public class GymMember {
     @Past(message = "La fecha de nacimiento debe estar en el pasado")
     private LocalDate birthDate;
 
-    @NotBlank(message = "El teléfono es obligatorio")
+    @NotNull(message = "El teléfono es obligatorio")
     private Long phone;
 
     @Email(message = "El email debe ser válido")
@@ -44,9 +44,25 @@ public class GymMember {
     @NotBlank(message = "El tipo de membresía es obligatorio")
     private String membershipType;
 
+    // delete this atribute
     @NotNull(message = "La fecha de inscripción es obligatoria")
     private LocalDate joinDate;
 
     @NotBlank(message = "El teléfono de emergencia es obligatorio")
     private Long emergencyPhone;
+
+    // annotation fro auditing
+    @CreatedDate
+    private LocalDateTime createDate;
+
+    @LastModifiedDate
+    private LocalDateTime updateDate;
+
+    @Column( nullable = false)
+    private Boolean available = true;
+
+    // constructor only for
+    public GymMember() {
+        this.available = true;
+    }
 }
