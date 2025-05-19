@@ -16,7 +16,7 @@ public class GymMemberMapper {
         member.setEmail(dto.getEmail());
         member.setGender(dto.getGender());
         member.setMembershipType(dto.getMembershipType());
-        member.setJoinDate(dto.getJoinDate());
+
         member.setEmergencyPhone(dto.getEmergencyPhone());
         return member;
     }
@@ -30,7 +30,6 @@ public class GymMemberMapper {
         dto.setEmail(entity.getEmail());
         dto.setGender(entity.getGender());
         dto.setMembershipType(entity.getMembershipType());
-        dto.setJoinDate(entity.getJoinDate());
         dto.setEmergencyPhone(entity.getEmergencyPhone());
         return dto;
     }

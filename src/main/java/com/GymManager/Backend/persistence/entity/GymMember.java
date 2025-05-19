@@ -44,9 +44,7 @@ public class GymMember {
     @NotBlank(message = "El tipo de membresía es obligatorio")
     private String membershipType;
 
-    // delete this atribute
-    @NotNull(message = "La fecha de inscripción es obligatoria")
-    private LocalDate joinDate;
+
 
     @NotBlank(message = "El teléfono de emergencia es obligatorio")
     private Long emergencyPhone;
