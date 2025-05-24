@@ -19,13 +19,13 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class AccessLog {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id-access-log")
     private Integer idAccessLog;
 
     @ManyToOne
-    @JoinColumn( name = "identificationNumber", referencedColumnName = "identificationNumber")
-    private GymMember user;
+    @JoinColumn( name = "id_member", referencedColumnName = "id_member")
+    private GymMembers user;
 
     @CreatedDate
     private LocalDateTime createDate;

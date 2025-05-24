@@ -1,13 +1,14 @@
 package com.GymManager.Backend.domain.service;
 
-import com.GymManager.Backend.domain.dto.GymMemberDto;
+import com.GymManager.Backend.domain.dto.GymMember.GymMemberDto;
+import com.GymManager.Backend.domain.dto.GymMember.GymMemberRequest;
 
 import java.util.List;
 
 public interface GymMemberService {
-    GymMemberDto save(GymMemberDto gymMemberDto);
+    GymMemberDto save(GymMemberRequest gymMemberDto);
     List<GymMemberDto> getAll();
-    GymMemberDto getById(Long id);
-    void delete(Long id);
-    GymMemberDto update(GymMemberDto gymMemberDto);
+    GymMemberDto getById(Integer id);
+    void delete(Integer id);
+    GymMemberDto update(Integer id, GymMemberDto gymMemberDto);
 }

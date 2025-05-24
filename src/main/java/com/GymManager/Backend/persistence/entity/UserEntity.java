@@ -16,6 +16,8 @@ import java.time.LocalDateTime;
 @EntityListeners(AuditingEntityListener.class)
 @Builder
 public class UserEntity {
+
+    // PROBAR ENDPOINTS, RELACIONAR TABLA
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id_user;
