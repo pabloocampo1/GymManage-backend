@@ -48,17 +48,14 @@ public class SubscriptionJpaAdapter implements SubscriptionPersistencePort {
                 .orElseThrow(() -> new IllegalArgumentException("Member en suscription save no found: " + dto.getUserId()));
         MembershipEntity membership = this.membresiaRepository.findById(dto.getMembershipId())
                 .orElseThrow(() -> new IllegalArgumentException("Membership in suscription no found: " + dto.getMembershipId()));
-
-        // si ese usuario no tiene una suscripcion se la creamos.
+        System.out.println("Llego a el save de subcription");
         if(!this.subscriptionCrudRepository.existsByMember_idMember(member.getIdMember())) {
-            // terminar de agregar toda la logica.
             SubscriptionEntity newSubscription = new SubscriptionEntity();
             newSubscription.setMember(member);
             newSubscription.setMembership(membership);
             newSubscription.setStatus(true);
             newSubscription.setStartDate(LocalDateTime.now());
             newSubscription.setFinishDate(LocalDateTime.now().plusDays(membership.getDuration()));
-            System.out.println("se creo una  suscripcion. ");
             SubscriptionEntity subscriptionSaved = this.subscriptionCrudRepository.save(newSubscription);
             return this.subscriptionMapper.suscriptionEntityToResponse(subscriptionSaved);
         }else{
@@ -68,10 +65,10 @@ public class SubscriptionJpaAdapter implements SubscriptionPersistencePort {
            subscription.setStartDate(LocalDateTime.now());
            subscription.setFinishDate(LocalDateTime.now().plusDays(membership.getDuration()));
            subscription.setStatus(true);
-            System.out.println("se edito una  suscripcion. ");
             SubscriptionEntity subscriptionSaved = this.subscriptionCrudRepository.save(subscription);
            return this.subscriptionMapper.suscriptionEntityToResponse(subscriptionSaved);
         }
+
 
     }
 
@@ -88,6 +85,11 @@ public class SubscriptionJpaAdapter implements SubscriptionPersistencePort {
     @Override
     public Optional<SubscriptionEntity> findByMember_IdMember(Integer idMember) {
         return this.subscriptionCrudRepository.findByMember_idMember(idMember);
+    }
+
+    @Override
+    public void delete(SubscriptionEntity subscription) {
+        this.subscriptionCrudRepository.delete(subscription);
     }
 
     // esta funcion solo es para la actualizacion de las membresias en el schedule que actualiza las membresias.

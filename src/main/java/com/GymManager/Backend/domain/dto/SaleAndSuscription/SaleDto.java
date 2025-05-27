@@ -12,8 +12,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SaleDto {
-   @NotNull
+  // @NotNull
     private Integer userId;
+
    @NotNull
     private Integer membershipId;
     @NotBlank

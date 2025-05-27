@@ -34,7 +34,7 @@ public class SaleServiceImple implements SaleService {
             if (saleDto.getPurchaseMethod().isEmpty()){
                 throw new IllegalArgumentException("payment method no add.");
             }
-            // Validar que el usuario si exista y la membresi
+
             GymMembers member = this.gymMemberPersistencePort.findById(saleDto.getUserId())
                     .orElseThrow(() -> new IllegalArgumentException("Member en sale no found: " + saleDto.getUserId()));
 

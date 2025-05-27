@@ -33,7 +33,6 @@ public class SaleJpaAdapter implements SalePersitencePort {
 
     @Override
     public SaleResponse save(SaleDto saleDto, GymMembers gymMembers, MembershipEntity membership) {
-
         SaleRegisterEntity saleRegisterEntity = new SaleRegisterEntity();
         saleRegisterEntity.setMember(gymMembers.getIdMember());
         saleRegisterEntity.setAmount(membership.getPrice());
@@ -41,7 +40,6 @@ public class SaleJpaAdapter implements SalePersitencePort {
         saleRegisterEntity.setPaymentMethod(saleDto.getPurchaseMethod());
         saleRegisterEntity.setReceptionistName(saleDto.getReceptionistName());
 
-       // agregar el metodo actualizar o agregar una sucription.
         SubscriptionDto subscriptionDto = new SubscriptionDto( membership.getId(), gymMembers.getIdMember());
         this.subscriptionPersistencePort.save(subscriptionDto);
         return this.saleMapper.saleEntityToResponse(this.saleCrudRepository.save(saleRegisterEntity));

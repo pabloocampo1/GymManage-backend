@@ -15,5 +15,6 @@ public interface SubscriptionPersistencePort {
     SubscriptionResponse getByUser(Integer userId);
     boolean existsByMember_IdMember(Integer idMember);
     Optional<SubscriptionEntity> findByMember_IdMember(Integer idMember);
+    void delete(SubscriptionEntity subscription);
 
 }

@@ -28,6 +28,7 @@ public class GymMembersController {
     @PostMapping
     public ResponseEntity<GymMemberDto> createMember(@Valid @RequestBody GymMemberRequest gymMemberRequest) {
         try{
+
             return new ResponseEntity<>(this.gymMemberService.save(gymMemberRequest), HttpStatus.CREATED);
         } catch (Exception e) {
             e.printStackTrace();

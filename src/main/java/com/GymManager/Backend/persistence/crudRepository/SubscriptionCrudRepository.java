@@ -8,5 +8,4 @@ import java.util.Optional;
 public interface SubscriptionCrudRepository extends CrudRepository<SubscriptionEntity, Integer> {
     boolean existsByMember_idMember(Integer idMember);
     Optional<SubscriptionEntity> findByMember_idMember(Integer idMember);
-
 }

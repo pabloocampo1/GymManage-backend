@@ -32,40 +32,33 @@ public class GymMemberServiceImpl implements GymMemberService {
     @Override
     @Transactional
     public GymMemberDto save(GymMemberRequest dto) {
-        try {
-            // validar que no tenga un id
-            if (dto.getGymMemberDto().getId() != null) {
-                dto.getGymMemberDto().setId(null);
-            }
-            // validar que la identificacion si sea correcta y unica
-            if (gymMemberPersistencePort.findByIdentificationNumber(dto.getGymMemberDto().getIdentificationNumber()).isPresent()) {
-                throw new UsernameNotFoundException("No se puede crear. Miembro encontrado con ID: " + dto.getGymMemberDto().getIdentificationNumber());
-            }
-
-            GymMembers entity = gymMemberMapper.toEntity(dto.getGymMemberDto());
-            GymMembers savedEntity = gymMemberPersistencePort.save(entity);
-            System.out.println("id del nuevo usuario: " + savedEntity.getIdMember());
-            this.checkAndCreateSale(dto.getSaleDto(), savedEntity);
-            return gymMemberMapper.toDto(savedEntity);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        if (dto.getGymMemberDto() == null) {
+            throw new IllegalArgumentException("GymMemberDto no puede ser null.");
         }
+        if (dto.getGymMemberDto().getId() != null) {
+            dto.getGymMemberDto().setId(null);
+        }
+        if (gymMemberPersistencePort.findByIdentificationNumber(dto.getGymMemberDto().getIdentificationNumber()).isPresent()) {
+            throw new UsernameNotFoundException("Miembro ya existe con ID: " + dto.getGymMemberDto().getIdentificationNumber());
+        }
+        GymMembers entity = gymMemberMapper.toEntity(dto.getGymMemberDto());
+        GymMembers savedEntity = gymMemberPersistencePort.save(entity);
+
+        this.checkAndCreateSale(dto.getSaleDto(), savedEntity);
+
+        return gymMemberMapper.toDto(savedEntity);
     }
+
 
 
     @Transactional
     public void checkAndCreateSale(SaleDto saleDto, GymMembers gymMembers) {
-        // crear la venta si se le asigno una membresia
-        if (saleDto.getMembershipId() != null) {
-            try{
-                SaleDto sale = saleDto;
-                saleDto.setUserId(gymMembers.getIdMember());
-                this.saleService.save(saleDto);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
+        if (saleDto != null && saleDto.getMembershipId() != null) {
+            saleDto.setUserId(gymMembers.getIdMember());
+            this.saleService.save(saleDto);
         }
     }
+
 
     @Override
     public List<GymMemberDto> getAll() {

@@ -18,22 +18,17 @@ public class ChangeStateSubscriptionService {
     @Autowired
     private final SubscriptionPersistencePort susSubscriptionPersistencePort;
 
-   // this method is for production @Scheduled(cron = "0 0 1 * * *")
-    @Scheduled(cron = "*/20 * * * * *") // cada 20 minutos para pruebas
+   //  @Scheduled(cron = "0 0 1 * * *")
+    @Scheduled(cron = "*/20 * * * * *")
     public void checkAndChangeStatusSubscription() {
         List<SubscriptionEntity> allSubscriptions = this.susSubscriptionPersistencePort.findAll();
-        System.out.println("ya ejecuto el cambio de suscripciones ");
         for (SubscriptionEntity subscription : allSubscriptions) {
             if (subscription.getFinishDate().isBefore(LocalDateTime.now()) &&
                     subscription.getFinishDate() != null &&
                     Boolean.TRUE.equals(subscription.getStatus())) {
-                System.out.println("se edito una membe");
                 subscription.setStatus(false);
                 this.susSubscriptionPersistencePort.saveDirect(subscription);
             }
-            System.out.println("se edito una membe");
-
-
         }
     }
 

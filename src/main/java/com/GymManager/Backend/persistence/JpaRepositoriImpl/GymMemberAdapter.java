@@ -2,18 +2,32 @@ package com.GymManager.Backend.persistence.JpaRepositoriImpl;
 
 
 import com.GymManager.Backend.domain.repository.GymMemberPersistencePort;
+import com.GymManager.Backend.domain.repository.SubscriptionPersistencePort;
 import com.GymManager.Backend.persistence.crudRepository.GymMemberCrudRepo;
 import com.GymManager.Backend.persistence.entity.GymMembers;
+import com.GymManager.Backend.persistence.entity.SubscriptionEntity;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
 @Repository
-@RequiredArgsConstructor
-public class GymMemberPersistencePortImpl implements GymMemberPersistencePort {
+
+public class GymMemberAdapter implements GymMemberPersistencePort {
     private final GymMemberCrudRepo gymMemberCrudRepo;
+    private final SubscriptionPersistencePort subscriptionPersistencePort;
+
+    @Autowired
+    public GymMemberAdapter(GymMemberCrudRepo gymMemberCrudRepo, @Lazy SubscriptionPersistencePort subscriptionPersistencePort) {
+        this.gymMemberCrudRepo = gymMemberCrudRepo;
+        this.subscriptionPersistencePort = subscriptionPersistencePort;
+    }
+
 
     @Override
     public GymMembers save(GymMembers gymMember) {
@@ -36,13 +50,15 @@ public class GymMemberPersistencePortImpl implements GymMemberPersistencePort {
     }
 
     @Override
+    @Transactional
     public void deleteById(Integer id) {
+        this.subscriptionPersistencePort.findByMember_IdMember(id).ifPresent(this.subscriptionPersistencePort::delete);
         gymMemberCrudRepo.deleteById(id);
     }
 
     @Override
     public GymMembers update(GymMembers gymMember) {
-        return gymMemberCrudRepo.save(gymMember); // Spring Data JPA maneja la actualización si la entidad tiene un ID
+        return gymMemberCrudRepo.save(gymMember);
     }
 
     @Override

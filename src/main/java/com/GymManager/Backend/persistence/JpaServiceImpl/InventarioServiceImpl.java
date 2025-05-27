@@ -23,7 +23,7 @@ public class InventarioServiceImpl implements InventarioService {
 
     private final InventarioRepository inventarioRepository;
     private final InvetarioMapper invetarioMapper;
-    private final CloudinaryService cloudinaryService; // Inyecta el servicio de Cloudinary
+    private final CloudinaryService cloudinaryService;
 
     @Override
     public InventarioDto save(InventarioDto dto) {

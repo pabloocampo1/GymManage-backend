@@ -32,6 +32,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
                 throw new IllegalArgumentException("Membership not found :  " + subscriptionDto.getMembershipId());
             }
         } catch (Exception e) {
+            e.printStackTrace();
             throw new RuntimeException(e);
         }
         return this.subscriptionPersistencePort.save(subscriptionDto);
