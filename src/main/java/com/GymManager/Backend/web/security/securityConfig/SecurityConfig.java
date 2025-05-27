@@ -50,7 +50,7 @@ public class SecurityConfig {
                     request.requestMatchers( "/api/inventory/**").hasRole(ROLE_ADMIN);
                     request.requestMatchers( "/api/Eventos/**").hasRole(ROLE_ADMIN);
                     request.requestMatchers( "/api/miembros/**").hasRole(ROLE_ADMIN);
-                    request.requestMatchers( "/api/membresias/**").permitAll();
+                    request.requestMatchers( "/api/membresias/**").hasRole(ROLE_ADMIN);
                     request.anyRequest().authenticated();
                 })
                 .httpBasic(Customizer.withDefaults())

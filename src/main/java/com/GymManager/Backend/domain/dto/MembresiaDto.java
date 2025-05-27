@@ -8,5 +8,5 @@ public class MembresiaDto {
     public String name;
     public String type;
     public Long duration;
-    public double price;
+    public Long price;
 }

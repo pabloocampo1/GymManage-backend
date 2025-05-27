@@ -21,5 +21,5 @@ public class Membresia {
     private String name;
     private String type;
     private Long duration;
-    private double price;
+    private Long price;
 }
