@@ -21,6 +21,9 @@ public class SaleController {
 
     @PostMapping("save")
     public ResponseEntity<SaleResponse> saveSale(@RequestBody SaleDto saleDto) {
+        if(saleDto.getUserId() == null ){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         try{
             return new ResponseEntity<>(this.saleService.save(saleDto), HttpStatus.CREATED);
         } catch (Exception e) {

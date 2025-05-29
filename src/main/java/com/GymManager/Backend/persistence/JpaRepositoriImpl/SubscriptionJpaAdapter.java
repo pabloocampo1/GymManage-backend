@@ -48,7 +48,6 @@ public class SubscriptionJpaAdapter implements SubscriptionPersistencePort {
                 .orElseThrow(() -> new IllegalArgumentException("Member en suscription save no found: " + dto.getUserId()));
         MembershipEntity membership = this.membresiaRepository.findById(dto.getMembershipId())
                 .orElseThrow(() -> new IllegalArgumentException("Membership in suscription no found: " + dto.getMembershipId()));
-        System.out.println("Llego a el save de subcription");
         if(!this.subscriptionCrudRepository.existsByMember_idMember(member.getIdMember())) {
             SubscriptionEntity newSubscription = new SubscriptionEntity();
             newSubscription.setMember(member);
@@ -74,7 +73,10 @@ public class SubscriptionJpaAdapter implements SubscriptionPersistencePort {
 
     @Override
     public SubscriptionResponse getByUser(Integer userId) {
-        return null;
+        SubscriptionEntity subscription =  this.subscriptionCrudRepository.findByMember_idMember(userId)
+                .orElseThrow();
+
+        return this.subscriptionMapper.suscriptionEntityToResponse(subscription);
     }
 
     @Override

@@ -46,6 +46,12 @@ public class SaleJpaAdapter implements SalePersitencePort {
 
     }
 
+    // this method is only for register regular visits, no use in another implements
+    @Override
+    public void saveSaleDirect(SaleRegisterEntity saleRegisterEntity) {
+        this.saleCrudRepository.save(saleRegisterEntity);
+    }
+
     @Override
     public void delete(Integer id) {
 

@@ -71,7 +71,7 @@ public class GymMembers {
 
     @OneToMany(mappedBy = "user")
     @JsonIgnore
-    private List<AccessLog> access;
+    private List<AccessLogEntity> access;
 
     @OneToOne(mappedBy = "member")
     @JsonIgnore

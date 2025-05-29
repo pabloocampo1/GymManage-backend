@@ -1,19 +1,24 @@
 package com.GymManager.Backend.persistence.JpaServiceImpl;
 
 import com.GymManager.Backend.domain.dto.GymMember.GymMemberDto;
+import com.GymManager.Backend.domain.dto.GymMember.GymMemberFullData;
 import com.GymManager.Backend.domain.dto.GymMember.GymMemberRequest;
 import com.GymManager.Backend.domain.dto.SaleAndSuscription.SaleDto;
+import com.GymManager.Backend.domain.dto.SaleAndSuscription.SubscriptionResponse;
 import com.GymManager.Backend.domain.repository.GymMemberPersistencePort;
 import com.GymManager.Backend.domain.service.GymMemberService;
 import com.GymManager.Backend.domain.service.SaleService;
+import com.GymManager.Backend.domain.service.SubscriptionService;
 import com.GymManager.Backend.persistence.Mappers.GymMemberMapper;
 import com.GymManager.Backend.persistence.entity.GymMembers;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -21,12 +26,14 @@ public class GymMemberServiceImpl implements GymMemberService {
     private final GymMemberPersistencePort gymMemberPersistencePort;
     private final GymMemberMapper gymMemberMapper;
     private final SaleService saleService;
+    private final SubscriptionService subscriptionService;
 
     @Autowired
-    public GymMemberServiceImpl(GymMemberPersistencePort gymMemberPersistencePort, GymMemberMapper gymMemberMapper, SaleService saleService) {
+    public GymMemberServiceImpl(GymMemberPersistencePort gymMemberPersistencePort, GymMemberMapper gymMemberMapper, SaleService saleService, SubscriptionService subscriptionService) {
         this.gymMemberPersistencePort = gymMemberPersistencePort;
         this.gymMemberMapper = gymMemberMapper;
         this.saleService = saleService;
+        this.subscriptionService = subscriptionService;
     }
 
     @Override
@@ -75,6 +82,11 @@ public class GymMemberServiceImpl implements GymMemberService {
     }
 
     @Override
+    public Optional<GymMembers> getByIdDirect(Integer id) {
+        return this.gymMemberPersistencePort.findById(id);
+    }
+
+    @Override
     public void delete(Integer id) {
         if (!gymMemberPersistencePort.findById(id).isPresent()) {
             throw new RuntimeException("No se puede eliminar. Miembro no encontrado con ID: " + id);
@@ -98,6 +110,25 @@ public class GymMemberServiceImpl implements GymMemberService {
 
         GymMembers entitySaved =  this.gymMemberPersistencePort.save(entity);
         return gymMemberMapper.toDto(entitySaved);
+    }
+
+    @Override
+    public List<SubscriptionResponse> getAllByParam(String param) {
+        System.out.println("llego aca al service");
+        List<GymMembers> members = this.gymMemberPersistencePort.findAllByParam(param);
+
+        List<SubscriptionResponse> responseSubscriptions = members.stream().map(member -> {
+            SubscriptionResponse subscriptionByUser = this.subscriptionService.getByUser(member.getIdMember());
+            return subscriptionByUser;
+        }).toList() ;
+
+        return responseSubscriptions;
+    }
+
+    @Override
+    public GymMemberFullData getFullDataMember(@Valid Integer userId) {
+        return this.gymMemberPersistencePort.getFullData(userId)
+                .orElseThrow(() -> new UsernameNotFoundException("Member not found + " + userId));
     }
 
 }

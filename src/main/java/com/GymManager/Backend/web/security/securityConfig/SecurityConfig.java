@@ -50,6 +50,7 @@ public class SecurityConfig {
                     request.requestMatchers( "/api/inventory/**").hasAnyRole(ROLE_ADMIN, ROLE_SUPERADMIN);
                     request.requestMatchers( "/api/members/**").hasAnyRole(ROLE_ADMIN, ROLE_SUPERADMIN);
                     request.requestMatchers( "/api/membership/**").hasAnyRole(ROLE_ADMIN, ROLE_SUPERADMIN);
+                    request.requestMatchers( "/api/visits/**").hasAnyRole(ROLE_ADMIN, ROLE_SUPERADMIN);
                     request.requestMatchers( "/api/Eventos/**").permitAll();
                     request.requestMatchers("/api/sales/**").hasAnyRole(ROLE_ADMIN, ROLE_SUPERADMIN);
                     request.anyRequest().authenticated();
