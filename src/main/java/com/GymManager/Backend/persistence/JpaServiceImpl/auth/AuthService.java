@@ -76,7 +76,7 @@ public class AuthService {
                     .getAuthority();
 
             String jwt = this.createjwt(user.getUsername(), role);
-            System.out.println(role);
+
             return AuthResponseDto
                     .builder()
                     .message("logged success")

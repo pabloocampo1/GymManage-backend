@@ -1,6 +1,8 @@
 package com.GymManager.Backend.web.controller;
 
+import com.GymManager.Backend.domain.dto.ActivityRegistersResponse;
 import com.GymManager.Backend.domain.service.AccessLogService;
+import com.GymManager.Backend.persistence.entity.AccessLogEntity;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -9,6 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/accessLog")
@@ -29,5 +33,10 @@ public class AccessLogController {
         }
     }
 
+    // agregar esta funcionalidad completa.
+    @GetMapping("/getAll")
+    public ResponseEntity<List<AccessLogEntity>> getAll() {
+        return ResponseEntity.ok(this.accessLogService.getAll());
+    }
 
 }

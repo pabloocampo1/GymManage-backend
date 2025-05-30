@@ -21,6 +21,7 @@ public class RegisterVisitController {
 
     @PostMapping("/save")
     public ResponseEntity<RegularVisitEntity> save(@RequestBody RegularVisitEntity regularVisitEntity){
+        System.out.println(regularVisitEntity);
         try{
             return new ResponseEntity<>(this.visitsService.save(regularVisitEntity), HttpStatus.CREATED );
         } catch (Exception e) {

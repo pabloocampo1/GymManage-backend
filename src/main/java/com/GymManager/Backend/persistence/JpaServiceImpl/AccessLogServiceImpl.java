@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class AccessLogServiceImpl implements AccessLogService {
 
@@ -41,5 +43,10 @@ public class AccessLogServiceImpl implements AccessLogService {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public List<AccessLogEntity> getAll() {
+        return this.accessLogPersistencePort.getAll();
     }
 }

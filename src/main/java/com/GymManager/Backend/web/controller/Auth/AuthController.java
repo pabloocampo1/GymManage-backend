@@ -52,7 +52,6 @@ public class AuthController {
     public ResponseEntity<Boolean> isValidJwt(@PathVariable("jwt") String jwt){
 
         Boolean response = this.authService.validateJwt(jwt);
-        System.out.println("response" +response);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
