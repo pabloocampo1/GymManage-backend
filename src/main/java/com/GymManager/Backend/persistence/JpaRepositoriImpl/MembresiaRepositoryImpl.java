@@ -4,51 +4,46 @@ package com.GymManager.Backend.persistence.JpaRepositoriImpl;
 
 import com.GymManager.Backend.domain.repository.MembresiaRepository;
 import com.GymManager.Backend.persistence.crudRepository.MembresiaCrudRepo;
-import com.GymManager.Backend.persistence.entity.Membresia;
+import com.GymManager.Backend.persistence.entity.MembershipEntity;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
 @Repository
+@RequiredArgsConstructor
 public class MembresiaRepositoryImpl implements MembresiaRepository {
-    @Autowired
+
     private final MembresiaCrudRepo crudRepository;
 
-    public MembresiaRepositoryImpl(MembresiaCrudRepo crudRepository) {
-        this.crudRepository = crudRepository;
-    }
-
-
     @Override
-    public Membresia save(Membresia membresia) {
-        return crudRepository.save(membresia);
+    public MembershipEntity save(MembershipEntity membresia) {
+        return this.crudRepository.save(membresia);
     }
 
     @Override
-    public Optional<Membresia> findById(Long id) {
+    public Optional<MembershipEntity> findById(Integer id) {
         return crudRepository.findById(id);
     }
 
     @Override
-    public List<Membresia> findAll() {
-        return (List<Membresia>) crudRepository.findAll();
+    public List<MembershipEntity> findAll() {
+        return crudRepository.findAll();
     }
 
     @Override
-    public Membresia update(Membresia membresia) {
-        return crudRepository.save(membresia); // Spring Data JPA maneja la actualización si la entidad tiene un ID
+    public MembershipEntity update(MembershipEntity membresia) {
+        return this.crudRepository.save(membresia);
     }
 
     @Override
-    public void deleteById(Long id) {
-        crudRepository.deleteById(id);
+    public Boolean existById(Integer id) {
+        return this.crudRepository.existsByIdAndAvailableTrue(id);
     }
 
     @Override
-    public Boolean existById(Long id) {
-       return crudRepository.existsById(id);
+    public void deleteById(Integer id) {
+        this.crudRepository.deleteById(id);
     }
 }

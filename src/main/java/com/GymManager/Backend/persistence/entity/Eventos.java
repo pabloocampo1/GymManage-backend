@@ -21,7 +21,6 @@ public class Eventos {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String nombre;
     private String categoria;
     private LocalDate fechaEvento;
