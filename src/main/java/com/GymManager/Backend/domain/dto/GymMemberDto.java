@@ -8,25 +8,23 @@ import java.time.LocalDate;
 @Data
 public class GymMemberDto {
 
-    @NotBlank(message = "La identificación es obligatoria.")
-    public Long identificationNumber;
+    @NotNull(message = "La identificación es obligatoria.")
+    private Long identificationNumber;
 
     @NotBlank(message = "El nombre completo es obligatorio.")
-    public String fullName;
+    private String fullName;
 
     @NotNull(message = "La fecha de nacimiento es obligatoria.")
-    public LocalDate birthDate;
+    private LocalDate birthDate;
 
-    @NotBlank(message = "El teléfono es obligatorio.")
-    public Long phone;
+    @NotNull(message = "El teléfono es obligatorio.")
+    private Long phone;
 
     @Email(message = "Correo electrónico inválido.")
-    public String email;
+    private String email;
 
-    public String gender;
-    public String membershipType;
-    public LocalDate joinDate;
-    public Long emergencyPhone;
-
-
+    private String gender;
+    private String membershipType;
+    private LocalDate joinDate;
+    private Long emergencyPhone;
 }

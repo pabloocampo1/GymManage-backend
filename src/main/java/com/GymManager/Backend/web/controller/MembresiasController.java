@@ -5,6 +5,7 @@ package com.GymManager.Backend.web.controller;
 import com.GymManager.Backend.domain.dto.MembresiaDto;
 import com.GymManager.Backend.domain.service.MembresiaService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,7 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/membresias")
 @RequiredArgsConstructor
-public class Controller {
+public class MembresiasController {
 
     private final MembresiaService membresiaService;
 
@@ -31,6 +32,17 @@ public class Controller {
     @GetMapping("/{id}")
     public ResponseEntity<MembresiaDto> getById(@PathVariable Long id) {
         return ResponseEntity.ok(membresiaService.getById(id));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<MembresiaDto> update(@PathVariable("id") Long id, @RequestBody MembresiaDto dto) {
+
+       try {
+           MembresiaDto updated = membresiaService.update(id, dto);
+           return new ResponseEntity<>(this.membresiaService.update(id, dto), HttpStatus.CREATED);
+       } catch (Exception e) {
+           return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+       }
     }
 
     @DeleteMapping("/{id}")

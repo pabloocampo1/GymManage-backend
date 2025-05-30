@@ -16,7 +16,7 @@ import java.util.stream.StreamSupport;
 import static org.springframework.http.ResponseEntity.*;
 
 @RestController
-@RequestMapping("/api/members")
+@RequestMapping("/api/miembros")
 public class GymMemberController {
 
     private final GymMemberCrudRepo gymMemberRepository;

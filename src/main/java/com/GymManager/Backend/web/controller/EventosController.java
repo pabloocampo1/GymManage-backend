@@ -43,6 +43,11 @@ public class EventosController {
         return eventoService.getAll();
     }
 
+    @GetMapping("/public")
+    public List<EventoDto> getAllpublic() {
+        return eventoService.getAll();
+    }
+
     @GetMapping("/{id}")
     public EventoDto getEventoById(@PathVariable Long id) {
         return eventoService.getById(id);
