@@ -49,7 +49,9 @@ dependencies {
 	// Mail functionality
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
 
-	// JWT
+	// JWT AND AUTHENTICATION WITH GOOGLE
+	implementation 'com.google.http-client:google-http-client-jackson2:1.43.3'
+	implementation 'com.google.api-client:google-api-client:2.2.0'
 	implementation 'com.auth0:java-jwt:4.4.0'
 
 

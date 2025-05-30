@@ -44,6 +44,7 @@ public class SecurityConfig {
                     request.requestMatchers(HttpMethod.POST, "/api/auth/signIn").permitAll();
                     request.requestMatchers(HttpMethod.GET, "/api/auth/validate/*").permitAll();
                     request.requestMatchers(HttpMethod.GET, "/api/auth/generateResetPasswordToken/**").permitAll();
+                    request.requestMatchers(HttpMethod.POST, "/api/auth/signWithGoogle").permitAll();
                     request.requestMatchers(HttpMethod.POST, "/api/user/save").permitAll();
                     request.requestMatchers(HttpMethod.POST, "/api/auth/resetPassword").permitAll();
                     request.requestMatchers(HttpMethod.GET, "/api/auth/isValidTokenResetPassword/*").permitAll();
