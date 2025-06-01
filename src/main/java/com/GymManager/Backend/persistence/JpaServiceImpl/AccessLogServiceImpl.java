@@ -46,7 +46,14 @@ public class AccessLogServiceImpl implements AccessLogService {
     }
 
     @Override
-    public List<AccessLogEntity> getAll() {
-        return this.accessLogPersistencePort.getAll();
+    public List<AccessLogEntity> getAllMemberToday() {
+        return this.accessLogPersistencePort.getAllMemberToday();
     }
+
+    @Override
+    public List<AccessLogEntity> getAllMemberMonth() {
+        return this.accessLogPersistencePort.getAllMemberMonth();
+    }
+
+
 }

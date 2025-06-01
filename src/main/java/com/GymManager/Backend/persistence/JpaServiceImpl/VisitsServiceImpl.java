@@ -2,17 +2,21 @@ package com.GymManager.Backend.persistence.JpaServiceImpl;
 
 import com.GymManager.Backend.domain.repository.SalePersitencePort;
 import com.GymManager.Backend.domain.repository.VisitsPersistencePort;
+import com.GymManager.Backend.domain.service.VisitsService;
 import com.GymManager.Backend.persistence.entity.RegularVisitEntity;
-import com.GymManager.Backend.persistence.entity.SaleRegisterEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
-public class VisitsService {
+public class VisitsServiceImpl implements VisitsService {
     private final VisitsPersistencePort visitsPersistencePort;
     private final SalePersitencePort salePersitencePort;
 
-    public VisitsService(VisitsPersistencePort visitsPersistencePort, SalePersitencePort salePersitencePort) {
+    @Autowired
+    public VisitsServiceImpl(VisitsPersistencePort visitsPersistencePort, SalePersitencePort salePersitencePort) {
         this.visitsPersistencePort = visitsPersistencePort;
         this.salePersitencePort = salePersitencePort;
     }
@@ -24,5 +28,15 @@ public class VisitsService {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public List<RegularVisitEntity> getAllByToday() {
+        return this.visitsPersistencePort.findAllByToday();
+    }
+
+    @Override
+    public List<RegularVisitEntity> getAllByMonth() {
+        return this.visitsPersistencePort.findAllByMonth();
     }
 }

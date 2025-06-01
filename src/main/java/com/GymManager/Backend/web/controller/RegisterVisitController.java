@@ -1,6 +1,6 @@
 package com.GymManager.Backend.web.controller;
 
-import com.GymManager.Backend.persistence.JpaServiceImpl.VisitsService;
+import com.GymManager.Backend.persistence.JpaServiceImpl.VisitsServiceImpl;
 import com.GymManager.Backend.persistence.entity.RegularVisitEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,17 +13,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/visits")
 public class RegisterVisitController {
 
-    private final VisitsService visitsService;
+    private final VisitsServiceImpl visitsServiceImpl;
 
-    public RegisterVisitController(VisitsService visitsService) {
-        this.visitsService = visitsService;
+    public RegisterVisitController(VisitsServiceImpl visitsServiceImpl) {
+        this.visitsServiceImpl = visitsServiceImpl;
     }
 
     @PostMapping("/save")
     public ResponseEntity<RegularVisitEntity> save(@RequestBody RegularVisitEntity regularVisitEntity){
         System.out.println(regularVisitEntity);
         try{
-            return new ResponseEntity<>(this.visitsService.save(regularVisitEntity), HttpStatus.CREATED );
+            return new ResponseEntity<>(this.visitsServiceImpl.save(regularVisitEntity), HttpStatus.CREATED );
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }

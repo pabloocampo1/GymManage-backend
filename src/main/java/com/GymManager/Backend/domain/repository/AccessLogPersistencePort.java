@@ -6,5 +6,6 @@ import java.util.List;
 
 public interface AccessLogPersistencePort {
     AccessLogEntity save(AccessLogEntity accessLogEntity);
-    List<AccessLogEntity> getAll();
+    List<AccessLogEntity> getAllMemberToday();
+    List<AccessLogEntity> getAllMemberMonth();
 }
