@@ -9,4 +9,5 @@ public interface VisitsPersistencePort {
     RegularVisitEntity save(RegularVisitEntity regularVisitEntity);
     List<RegularVisitEntity> findAllByToday();
     List<RegularVisitEntity> findAllByMonth();
+    void deleteAllToday(LocalDateTime start, LocalDateTime end);
 }

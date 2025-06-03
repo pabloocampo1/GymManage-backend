@@ -40,4 +40,9 @@ public class VisitsJpaAdapter implements VisitsPersistencePort {
         LocalDateTime endOfMonth = month.atEndOfMonth().atTime(LocalTime.MAX);
         return this.visitsCrudRepository.findAllByVisitDateMonth(startOfMonth, endOfMonth);
     }
+
+    @Override
+    public void deleteAllToday(LocalDateTime start,LocalDateTime end) {
+        this.visitsCrudRepository.deleteAllToday(start, end);
+    }
 }

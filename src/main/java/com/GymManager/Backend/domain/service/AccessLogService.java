@@ -8,4 +8,5 @@ public interface AccessLogService {
     Boolean save(Integer userId);
     List<AccessLogEntity> getAllMemberToday();
     List<AccessLogEntity> getAllMemberMonth();
+    void deleteAllToday();
 }

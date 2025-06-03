@@ -41,5 +41,10 @@ public class AccessLogJpaAdapter implements AccessLogPersistencePort {
         return (List<AccessLogEntity>) this.accessLogCrudRepository.findAllByMonth(startOfMonth, endOfMonth);
     }
 
+    @Override
+    public void deleteAllByToday(LocalDateTime start, LocalDateTime end) {
+        this.accessLogCrudRepository.deleteAllByToday(start, end);
+    }
+
 
 }

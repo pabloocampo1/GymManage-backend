@@ -6,7 +6,9 @@ import com.GymManager.Backend.persistence.entity.AccessLogEntity;
 import com.GymManager.Backend.persistence.entity.GymMembers;
 import com.GymManager.Backend.persistence.entity.RegularVisitEntity;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -130,6 +132,18 @@ public class ActivityController {
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(result);
+    }
+
+    @DeleteMapping("/deleteAllToday")
+    public ResponseEntity<?> deleteAllToday(){
+        try{
+            this.visitsService.deleteAllToday();
+            this.accessLogService.deleteAllToday();
+            int[] nan = new int[0];
+            return new ResponseEntity<>(nan, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
 

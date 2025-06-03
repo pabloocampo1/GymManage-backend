@@ -9,4 +9,5 @@ public interface VisitsService {
     RegularVisitEntity save(RegularVisitEntity regularVisitEntity);
     List<RegularVisitEntity> getAllByToday();
     List<RegularVisitEntity> getAllByMonth();
+    void deleteAllToday();
 }

@@ -1,9 +1,11 @@
 package com.GymManager.Backend.persistence.crudRepository;
 
 import com.GymManager.Backend.persistence.entity.RegularVisitEntity;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -15,4 +17,11 @@ public interface VisitsCrudRepository extends CrudRepository<RegularVisitEntity,
 
     @Query("SELECT v FROM RegularVisitEntity v WHERE v.visitDate BETWEEN :start AND :end ORDER BY v.visitDate ASC")
     List<RegularVisitEntity> findAllByVisitDateMonth(@Param("start") LocalDateTime start, @Param("end") LocalDateTime end);
+
+    @Modifying
+    @Transactional
+    @Query("DELETE FROM RegularVisitEntity v WHERE v.visitDate BETWEEN :start AND :end")
+    void deleteAllToday(@Param("start") LocalDateTime start, @Param("end") LocalDateTime end);
+
+
 }
