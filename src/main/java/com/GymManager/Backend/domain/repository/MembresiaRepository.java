@@ -2,19 +2,16 @@ package com.GymManager.Backend.domain.repository;
 
 
 
-import com.GymManager.Backend.persistence.entity.GymMember;
-import com.GymManager.Backend.persistence.entity.Membresia;
-import org.springframework.stereotype.Component;
+import com.GymManager.Backend.persistence.entity.MembershipEntity;
 
 import java.util.List;
 import java.util.Optional;
 
-
 public interface MembresiaRepository {
-    Membresia save(Membresia membresia);
-    Optional<Membresia> findById(Long id);
-    List<Membresia> findAll();
-    void deleteById(Long id);
-    Membresia update(Membresia membresia);
-    Boolean existById(Long id);
+    MembershipEntity save(MembershipEntity membresia);
+    Optional<MembershipEntity> findById(Integer id);
+    List<MembershipEntity> findAll();
+    void deleteById(Integer id);
+    MembershipEntity update(MembershipEntity membresia);
+    Boolean existById(Integer id);
 }

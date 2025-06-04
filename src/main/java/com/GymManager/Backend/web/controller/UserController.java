@@ -5,8 +5,8 @@ import com.GymManager.Backend.domain.dto.user.UserResponseDto;
 import com.GymManager.Backend.persistence.JpaServiceImpl.user.UserServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -22,7 +22,6 @@ public class UserController {
 
     @PostMapping("/save")
     public ResponseEntity<UserResponseDto> save(@Valid @RequestBody UserRequestDto userRequestDto){
-        System.out.println(userRequestDto);
         try{
             return  new ResponseEntity<>(this.userService.saveUser(userRequestDto), HttpStatus.CREATED);
         } catch (Exception e) {

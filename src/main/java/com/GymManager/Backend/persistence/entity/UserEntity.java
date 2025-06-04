@@ -10,13 +10,14 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "user")
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @EntityListeners(AuditingEntityListener.class)
 @Builder
 public class UserEntity {
+
+    // PROBAR ENDPOINTS, RELACIONAR TABLA
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id_user;

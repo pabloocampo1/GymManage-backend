@@ -44,14 +44,14 @@ public class SecurityConfig {
                     request.requestMatchers(HttpMethod.POST, "/api/auth/signIn").permitAll();
                     request.requestMatchers(HttpMethod.GET, "/api/auth/validate/*").permitAll();
                     request.requestMatchers(HttpMethod.GET, "/api/auth/generateResetPasswordToken/**").permitAll();
+                    request.requestMatchers(HttpMethod.POST, "/api/auth/signWithGoogle").permitAll();
                     request.requestMatchers(HttpMethod.POST, "/api/user/save").permitAll();
                     request.requestMatchers(HttpMethod.POST, "/api/auth/resetPassword").permitAll();
                     request.requestMatchers(HttpMethod.GET, "/api/auth/isValidTokenResetPassword/*").permitAll();
                     request.requestMatchers( "/api/inventory/**").hasRole(ROLE_ADMIN);
                     request.requestMatchers( "/api/Eventos/**").hasRole(ROLE_ADMIN);
                     request.requestMatchers( "/api/miembros/**").hasRole(ROLE_ADMIN);
-                    request.requestMatchers( "/api/membresias/**").hasRole(ROLE_ADMIN);
-                    request.requestMatchers( "/api/Eventos/public").permitAll();
+                    request.requestMatchers( "/api/membresias/**").permitAll();
                     request.anyRequest().authenticated();
                 })
                 .httpBasic(Customizer.withDefaults())

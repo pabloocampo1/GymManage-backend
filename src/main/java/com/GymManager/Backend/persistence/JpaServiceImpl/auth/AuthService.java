@@ -76,12 +76,12 @@ public class AuthService {
                     .getAuthority();
 
             String jwt = this.createjwt(user.getUsername(), role);
-            String emailUser = this.userService.getEmailByUser(user.getUsername());
+            System.out.println(role);
             return AuthResponseDto
                     .builder()
                     .message("logged success")
                     .username(user.getUsername())
-                    .email(emailUser)
+
                     .role(role)
                     .jwt(jwt)
                     .status(true)

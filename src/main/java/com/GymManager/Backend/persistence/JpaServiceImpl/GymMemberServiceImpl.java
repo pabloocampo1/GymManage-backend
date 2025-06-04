@@ -1,86 +1,134 @@
 package com.GymManager.Backend.persistence.JpaServiceImpl;
 
-import com.GymManager.Backend.domain.dto.GymMemberDto;
-import com.GymManager.Backend.domain.repository.GymMemberRepository;
+import com.GymManager.Backend.domain.dto.GymMember.GymMemberDto;
+import com.GymManager.Backend.domain.dto.GymMember.GymMemberFullData;
+import com.GymManager.Backend.domain.dto.GymMember.GymMemberRequest;
+import com.GymManager.Backend.domain.dto.SaleAndSuscription.SaleDto;
+import com.GymManager.Backend.domain.dto.SaleAndSuscription.SubscriptionResponse;
+import com.GymManager.Backend.domain.repository.GymMemberPersistencePort;
 import com.GymManager.Backend.domain.service.GymMemberService;
+import com.GymManager.Backend.domain.service.SaleService;
+import com.GymManager.Backend.domain.service.SubscriptionService;
 import com.GymManager.Backend.persistence.Mappers.GymMemberMapper;
-import com.GymManager.Backend.persistence.entity.GymMember;
-import lombok.RequiredArgsConstructor;
+import com.GymManager.Backend.persistence.entity.GymMembers;
+import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
 public class GymMemberServiceImpl implements GymMemberService {
-
-    private final GymMemberRepository gymMemberRepository;
+    private final GymMemberPersistencePort gymMemberPersistencePort;
     private final GymMemberMapper gymMemberMapper;
+    private final SaleService saleService;
+    private final SubscriptionService subscriptionService;
 
-    @Override
-    public GymMemberDto save(GymMemberDto dto) {
-        validateDto(dto);
-
-        GymMember entity = gymMemberMapper.toEntity(dto);
-        GymMember savedEntity = gymMemberRepository.save(entity);
-        return gymMemberMapper.toDto(savedEntity);
+    @Autowired
+    public GymMemberServiceImpl(GymMemberPersistencePort gymMemberPersistencePort, GymMemberMapper gymMemberMapper, SaleService saleService, SubscriptionService subscriptionService) {
+        this.gymMemberPersistencePort = gymMemberPersistencePort;
+        this.gymMemberMapper = gymMemberMapper;
+        this.saleService = saleService;
+        this.subscriptionService = subscriptionService;
     }
 
     @Override
+    @Transactional
+    public GymMemberDto save(GymMemberRequest dto) {
+        if (dto.getGymMemberDto() == null) {
+            throw new IllegalArgumentException("GymMemberDto no puede ser null.");
+        }
+        if (dto.getGymMemberDto().getId() != null) {
+            dto.getGymMemberDto().setId(null);
+        }
+        if (gymMemberPersistencePort.findByIdentificationNumber(dto.getGymMemberDto().getIdentificationNumber()).isPresent()) {
+            throw new UsernameNotFoundException("Miembro ya existe con ID: " + dto.getGymMemberDto().getIdentificationNumber());
+        }
+        GymMembers entity = gymMemberMapper.toEntity(dto.getGymMemberDto());
+        GymMembers savedEntity = gymMemberPersistencePort.save(entity);
+
+        this.checkAndCreateSale(dto.getSaleDto(), savedEntity);
+
+        return gymMemberMapper.toDto(savedEntity);
+    }
+
+
+
+    @Transactional
+    public void checkAndCreateSale(SaleDto saleDto, GymMembers gymMembers) {
+        if (saleDto != null && saleDto.getMembershipId() != null) {
+            saleDto.setUserId(gymMembers.getIdMember());
+            this.saleService.save(saleDto);
+        }
+    }
+
+
+    @Override
     public List<GymMemberDto> getAll() {
-        return gymMemberRepository.findAll().stream()
+        return gymMemberPersistencePort.findAll().stream()
                 .map(gymMemberMapper::toDto)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public GymMemberDto getById(Long id) {
-        GymMember entity = gymMemberRepository.findById(id)
+    public GymMemberDto getById(Integer id) {
+        GymMembers entity = gymMemberPersistencePort.findById(id)
                 .orElseThrow(() -> new RuntimeException("Miembro no encontrado con ID: " + id));
         return gymMemberMapper.toDto(entity);
     }
 
     @Override
-    public void delete(Long id) {
-        if (!gymMemberRepository.findById(id).isPresent()) {
-            throw new RuntimeException("No se puede eliminar. Miembro no encontrado con ID: " + id);
-        }
-        gymMemberRepository.deleteById(id);
+    public Optional<GymMembers> getByIdDirect(Integer id) {
+        return this.gymMemberPersistencePort.findById(id);
     }
 
     @Override
-    public GymMemberDto update(GymMemberDto dto) {
-        if (dto.getIdentificationNumber() == null || !gymMemberRepository.findById(dto.getIdentificationNumber()).isPresent()) {
-            throw new RuntimeException("No se puede actualizar. Miembro no encontrado con ID: " + dto.getIdentificationNumber());
+    public void delete(Integer id) {
+        if (!gymMemberPersistencePort.findById(id).isPresent()) {
+            throw new RuntimeException("No se puede eliminar. Miembro no encontrado con ID: " + id);
         }
-
-        validateDto(dto);
-
-        GymMember entity = gymMemberMapper.toEntity(dto);
-        GymMember updatedEntity = gymMemberRepository.save(entity);
-        return gymMemberMapper.toDto(updatedEntity);
+        gymMemberPersistencePort.deleteById(id);
     }
 
-    private void validateDto(GymMemberDto dto) {
-        if (dto.getIdentificationNumber() == null) {
-            throw new IllegalArgumentException("La identificación es obligatoria.");
-        }
+    @Override
+    public GymMemberDto update(Integer id, GymMemberDto dto) {
+        GymMembers entity = this.gymMemberPersistencePort.
+                findById(id).
+                orElseThrow(() -> new UsernameNotFoundException("USER NOT FOUND + " + id)) ;
 
-        if (dto.getFullName() == null || dto.getFullName().trim().isEmpty()) {
-            throw new IllegalArgumentException("El nombre completo es obligatorio.");
-        }
+        entity.setFullName(dto.getFullName());
+        entity.setBirthDate(dto.getBirthDate());
+        entity.setPhone(dto.getPhone());
+        entity.setEmail(dto.getEmail());
+        entity.setGender(dto.getGender());
+        entity.setEmergencyPhone(dto.getEmergencyPhone());
+        entity.setIdentificationNumber(dto.getIdentificationNumber());
 
-        if (dto.getBirthDate() == null) {
-            throw new IllegalArgumentException("La fecha de nacimiento es obligatoria.");
-        }
-
-        if (dto.getPhone() == null) {
-            throw new IllegalArgumentException("El teléfono es obligatorio.");
-        }
-
-        if (dto.getEmail() == null || dto.getEmail().trim().isEmpty()) {
-            throw new IllegalArgumentException("El correo electrónico es obligatorio.");
-        }
+        GymMembers entitySaved =  this.gymMemberPersistencePort.save(entity);
+        return gymMemberMapper.toDto(entitySaved);
     }
+
+    @Override
+    public List<SubscriptionResponse> getAllByParam(String param) {
+        System.out.println("llego aca al service");
+        List<GymMembers> members = this.gymMemberPersistencePort.findAllByParam(param);
+
+        List<SubscriptionResponse> responseSubscriptions = members.stream().map(member -> {
+            SubscriptionResponse subscriptionByUser = this.subscriptionService.getByUser(member.getIdMember());
+            return subscriptionByUser;
+        }).toList() ;
+
+        return responseSubscriptions;
+    }
+
+    @Override
+    public GymMemberFullData getFullDataMember(@Valid Integer userId) {
+        return this.gymMemberPersistencePort.getFullData(userId)
+                .orElseThrow(() -> new UsernameNotFoundException("Member not found + " + userId));
+    }
+
 }
