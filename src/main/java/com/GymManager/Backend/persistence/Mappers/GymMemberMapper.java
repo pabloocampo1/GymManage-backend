@@ -1,6 +1,7 @@
 package com.GymManager.Backend.persistence.Mappers;
 
 import com.GymManager.Backend.domain.dto.GymMember.GymMemberDto;
+import com.GymManager.Backend.domain.dto.GymMember.GymMemberFullData;
 import com.GymManager.Backend.persistence.entity.GymMembers;
 import org.springframework.stereotype.Component;
 
@@ -31,4 +32,9 @@ public class GymMemberMapper {
         dto.setEmergencyPhone(entity.getEmergencyPhone());
         return dto;
     }
+
+
+
+
+
 }

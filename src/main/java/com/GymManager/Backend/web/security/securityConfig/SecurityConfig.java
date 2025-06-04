@@ -44,13 +44,16 @@ public class SecurityConfig {
                     request.requestMatchers(HttpMethod.POST, "/api/auth/signIn").permitAll();
                     request.requestMatchers(HttpMethod.GET, "/api/auth/validate/*").permitAll();
                     request.requestMatchers(HttpMethod.GET, "/api/auth/generateResetPasswordToken/**").permitAll();
+                    request.requestMatchers(HttpMethod.POST, "/api/auth/signWithGoogle").permitAll();
                     request.requestMatchers(HttpMethod.POST, "/api/user/save").permitAll();
                     request.requestMatchers(HttpMethod.POST, "/api/auth/resetPassword").permitAll();
                     request.requestMatchers(HttpMethod.GET, "/api/auth/isValidTokenResetPassword/*").permitAll();
-                    request.requestMatchers( "/api/inventory/**").hasAnyRole(ROLE_ADMIN, ROLE_SUPERADMIN);
-                    request.requestMatchers( "/api/members/**").hasAnyRole(ROLE_ADMIN, ROLE_SUPERADMIN);
-                    request.requestMatchers( "/api/membership/**").hasAnyRole(ROLE_ADMIN, ROLE_SUPERADMIN);
-                    request.requestMatchers( "/api/Eventos/**").permitAll();
+                    request.requestMatchers("/api/inventory/**").hasAnyRole(ROLE_ADMIN, ROLE_SUPERADMIN);
+                    request.requestMatchers("/api/members/**").hasAnyRole(ROLE_ADMIN, ROLE_SUPERADMIN);
+                    request.requestMatchers("/api/membership/public/**").permitAll();
+                    request.requestMatchers("/api/membership/**").hasAnyRole(ROLE_ADMIN, ROLE_SUPERADMIN);
+                    request.requestMatchers("/api/visits/**").hasAnyRole(ROLE_ADMIN, ROLE_SUPERADMIN);
+                    request.requestMatchers("/api/Eventos/**").permitAll();
                     request.requestMatchers("/api/sales/**").hasAnyRole(ROLE_ADMIN, ROLE_SUPERADMIN);
                     request.anyRequest().authenticated();
                 })

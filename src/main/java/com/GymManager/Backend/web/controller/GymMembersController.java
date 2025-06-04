@@ -1,7 +1,9 @@
 package com.GymManager.Backend.web.controller;
 
 import com.GymManager.Backend.domain.dto.GymMember.GymMemberDto;
+import com.GymManager.Backend.domain.dto.GymMember.GymMemberFullData;
 import com.GymManager.Backend.domain.dto.GymMember.GymMemberRequest;
+import com.GymManager.Backend.domain.dto.SaleAndSuscription.SubscriptionResponse;
 import com.GymManager.Backend.domain.service.GymMemberService;
 import com.GymManager.Backend.persistence.Mappers.GymMemberMapper;
 import jakarta.validation.Valid;
@@ -41,6 +43,16 @@ public class GymMembersController {
         return new ResponseEntity<>(this.gymMemberService.getAll(), HttpStatus.OK);
     }
 
+
+    @GetMapping("/searchControlAccess/{param}")
+    public ResponseEntity<List<SubscriptionResponse>> getAllByParam(@PathVariable("param") String param ) {
+        return new ResponseEntity<>(this.gymMemberService.getAllByParam(param), HttpStatus.OK);
+    }
+    @GetMapping("/getFullData/{id}")
+    public ResponseEntity<GymMemberFullData> getAllByParam(@Valid @PathVariable("id") Integer userId ) {
+        return new ResponseEntity<>(this.gymMemberService.getFullDataMember(userId), HttpStatus.OK);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<?> getMemberById(@PathVariable String id) {
             try{
@@ -49,6 +61,8 @@ public class GymMembersController {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
     }
+
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteMember(@PathVariable String id) {

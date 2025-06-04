@@ -40,6 +40,6 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 
     @Override
     public SubscriptionResponse getByUser(Integer userId) {
-        return null;
+        return this.subscriptionPersistencePort.getByUser(userId);
     }
 }
