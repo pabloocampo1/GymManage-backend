@@ -19,7 +19,7 @@ public class ChangeStateSubscriptionService {
     private final SubscriptionPersistencePort susSubscriptionPersistencePort;
 
    //  @Scheduled(cron = "0 0 1 * * *")
-    @Scheduled(cron = "*/20 * * * * *")
+    @Scheduled(cron = "*/60 * * * * *")
     public void checkAndChangeStatusSubscription() {
         List<SubscriptionEntity> allSubscriptions = this.susSubscriptionPersistencePort.findAll();
         for (SubscriptionEntity subscription : allSubscriptions) {

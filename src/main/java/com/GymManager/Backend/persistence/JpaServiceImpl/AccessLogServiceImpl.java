@@ -11,6 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 @Service
@@ -46,7 +49,21 @@ public class AccessLogServiceImpl implements AccessLogService {
     }
 
     @Override
-    public List<AccessLogEntity> getAll() {
-        return this.accessLogPersistencePort.getAll();
+    public List<AccessLogEntity> getAllMemberToday() {
+        return this.accessLogPersistencePort.getAllMemberToday();
     }
+
+    @Override
+    public List<AccessLogEntity> getAllMemberMonth() {
+        return this.accessLogPersistencePort.getAllMemberMonth();
+    }
+
+    @Override
+    public void deleteAllToday() {
+        LocalDateTime start = LocalDate.now().atStartOfDay();
+        LocalDateTime end = LocalDate.now().atTime(LocalTime.MAX);
+        this.accessLogPersistencePort.deleteAllByToday(start, end);
+    }
+
+
 }

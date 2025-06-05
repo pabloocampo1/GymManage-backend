@@ -33,10 +33,5 @@ public class AccessLogController {
         }
     }
 
-    // agregar esta funcionalidad completa.
-    @GetMapping("/getAll")
-    public ResponseEntity<List<AccessLogEntity>> getAll() {
-        return ResponseEntity.ok(this.accessLogService.getAll());
-    }
 
 }

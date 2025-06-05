@@ -34,28 +34,28 @@ public class GymMembers {
     private Integer identificationNumber;
 
     @Column(name = "full_name", nullable = false)
-    @NotBlank(message = "El nombre completo es obligatorio")
+   // @NotBlank(message = "El nombre completo es obligatorio")
     private String fullName;
 
     @Column(name = "birth_date")
-    @Past(message = "La fecha de nacimiento debe estar en el pasado")
+     @Past(message = "La fecha de nacimiento debe estar en el pasado")
     private LocalDate birthDate;
 
     @Column(nullable = false)
-    @NotNull(message = "El teléfono es obligatorio")
+    //  @NotNull(message = "El teléfono es obligatorio")
     private Integer phone;
 
     @Column(nullable = false, unique = true)
-    @Email(message = "El email debe ser válido")
+    // @Email(message = "El email debe ser válido")
     @NotBlank(message = "El email es obligatorio")
     private String email;
 
     @Column(nullable = false)
-    @NotBlank(message = "El género es obligatorio")
+    //  @NotBlank(message = "El género es obligatorio")
     private String gender;
 
     @Column(name = "emergency_phone", nullable = false)
-    @NotNull(message = "El teléfono de emergencia es obligatorio")
+    //  @NotNull(message = "El teléfono de emergencia es obligatorio")
     private Integer emergencyPhone;
 
     @CreatedDate
