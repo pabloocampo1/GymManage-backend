@@ -1,5 +1,6 @@
 package com.GymManager.Backend.persistence.JpaServiceImpl;
 
+import com.GymManager.Backend.domain.dto.DashboardDtos.TotalVisitAccessesPerMonth;
 import com.GymManager.Backend.domain.repository.SalePersitencePort;
 import com.GymManager.Backend.domain.repository.VisitsPersistencePort;
 import com.GymManager.Backend.domain.service.VisitsService;
@@ -49,5 +50,10 @@ public class VisitsServiceImpl implements VisitsService {
         LocalDateTime startOfDay = LocalDate.now().atStartOfDay();
         LocalDateTime endOfDay = LocalDate.now().atTime(LocalTime.MAX);
         this.visitsPersistencePort.deleteAllToday(startOfDay, endOfDay);
+    }
+
+    @Override
+    public List<TotalVisitAccessesPerMonth> findAllTotalVisitsByMonth() {
+        return this.visitsPersistencePort.findAllTotalVisitsByMonth();
     }
 }

@@ -1,5 +1,7 @@
 package com.GymManager.Backend.persistence.JpaServiceImpl;
 
+import com.GymManager.Backend.domain.dto.DashboardDtos.AverageGenderDistributionDto;
+import com.GymManager.Backend.domain.dto.DashboardDtos.TotalActiveAndInactiveMembers;
 import com.GymManager.Backend.domain.dto.GymMember.GymMemberDto;
 import com.GymManager.Backend.domain.dto.GymMember.GymMemberFullData;
 import com.GymManager.Backend.domain.dto.GymMember.GymMemberRequest;
@@ -130,5 +132,11 @@ public class GymMemberServiceImpl implements GymMemberService {
         return this.gymMemberPersistencePort.getFullData(userId)
                 .orElseThrow(() -> new UsernameNotFoundException("Member not found + " + userId));
     }
+
+    @Override
+    public List<AverageGenderDistributionDto> getTotalMemberByGender() {
+        return this.gymMemberPersistencePort.findTotalMembersByGender();
+    }
+
 
 }

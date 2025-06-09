@@ -1,5 +1,8 @@
 package com.GymManager.Backend.domain.repository;
 
+import com.GymManager.Backend.domain.dto.DashboardDtos.MostUsedActiveMembershipDto;
+import com.GymManager.Backend.domain.dto.DashboardDtos.TotalActiveAndInactiveMembers;
+import com.GymManager.Backend.domain.dto.DashboardDtos.UserTypeloggedInDto;
 import com.GymManager.Backend.domain.dto.SaleAndSuscription.SubscriptionDto;
 import com.GymManager.Backend.domain.dto.SaleAndSuscription.SubscriptionResponse;
 import com.GymManager.Backend.persistence.entity.SubscriptionEntity;
@@ -16,5 +19,7 @@ public interface SubscriptionPersistencePort {
     boolean existsByMember_IdMember(Integer idMember);
     Optional<SubscriptionEntity> findByMember_IdMember(Integer idMember);
     void delete(SubscriptionEntity subscription);
-
+    List<MostUsedActiveMembershipDto> findMostUsedMembership();
+    List<UserTypeloggedInDto> findTypesOfUserByMonth();
+    TotalActiveAndInactiveMembers findAllToTalActiveAndInactiveMembers();
 }

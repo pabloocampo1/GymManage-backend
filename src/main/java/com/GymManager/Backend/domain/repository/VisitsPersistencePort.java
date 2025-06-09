@@ -1,5 +1,6 @@
 package com.GymManager.Backend.domain.repository;
 
+import com.GymManager.Backend.domain.dto.DashboardDtos.TotalVisitAccessesPerMonth;
 import com.GymManager.Backend.persistence.entity.RegularVisitEntity;
 
 import java.time.LocalDateTime;
@@ -10,4 +11,5 @@ public interface VisitsPersistencePort {
     List<RegularVisitEntity> findAllByToday();
     List<RegularVisitEntity> findAllByMonth();
     void deleteAllToday(LocalDateTime start, LocalDateTime end);
+    List<TotalVisitAccessesPerMonth> findAllTotalVisitsByMonth();
 }

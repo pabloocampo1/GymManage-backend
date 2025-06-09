@@ -2,6 +2,7 @@ package com.GymManager.Backend.persistence.crudRepository;
 
 import com.GymManager.Backend.persistence.entity.GymMembers;
 import com.GymManager.Backend.persistence.projections.AllDataAboutUser;
+import com.GymManager.Backend.persistence.projections.AverageGenderDistributionProjection;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -46,6 +47,15 @@ public interface GymMemberCrudRepo extends CrudRepository<GymMembers, Integer> {
                """)
     AllDataAboutUser allDataOfUser(@Param("userId") Integer userId);
 
-
+    @Query(value = """
+        SELECT 
+            gender as gender, 
+            COUNT(*) as total 
+        FROM gym_members 
+        WHERE 
+            YEAR(create_date) = :year 
+        GROUP BY gender
+    """, nativeQuery = true)
+    List<AverageGenderDistributionProjection> findTotalMembersByGender(@Param("year") int year);
 
 }

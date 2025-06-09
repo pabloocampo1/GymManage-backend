@@ -1,5 +1,7 @@
 package com.GymManager.Backend.domain.repository;
 
+import com.GymManager.Backend.domain.dto.DashboardDtos.AverageGenderDistributionDto;
+import com.GymManager.Backend.domain.dto.DashboardDtos.TotalActiveAndInactiveMembers;
 import com.GymManager.Backend.domain.dto.GymMember.GymMemberControlAccessResponse;
 import com.GymManager.Backend.domain.dto.GymMember.GymMemberFullData;
 import com.GymManager.Backend.persistence.entity.GymMembers;
@@ -18,4 +20,6 @@ public interface GymMemberPersistencePort {
     GymMembers update(GymMembers gymMember);
     Boolean existById(Integer id);
     Boolean existByIdentification(Integer id);
+    List<AverageGenderDistributionDto> findTotalMembersByGender();
+
 }

@@ -50,6 +50,7 @@ public class SecurityConfig {
                     request.requestMatchers(HttpMethod.GET, "/api/auth/isValidTokenResetPassword/*").permitAll();
                     request.requestMatchers( "/api/inventory/**").hasAnyRole(ROLE_ADMIN, ROLE_SUPERADMIN);
                     request.requestMatchers( "/api/members/**").hasAnyRole(ROLE_ADMIN, ROLE_SUPERADMIN);
+                    request.requestMatchers( "/api/dashboard/**").hasAnyRole(ROLE_ADMIN, ROLE_SUPERADMIN);
                     request.requestMatchers( "/api/membership/**").hasAnyRole(ROLE_ADMIN, ROLE_SUPERADMIN);
                     request.requestMatchers( "/api/visits/**").hasAnyRole(ROLE_ADMIN, ROLE_SUPERADMIN);
                     request.requestMatchers( "/api/activity/**").hasAnyRole(ROLE_ADMIN, ROLE_SUPERADMIN);

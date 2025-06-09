@@ -1,5 +1,8 @@
 package com.GymManager.Backend.persistence.JpaServiceImpl;
 
+import com.GymManager.Backend.domain.dto.DashboardDtos.MostUsedActiveMembershipDto;
+import com.GymManager.Backend.domain.dto.DashboardDtos.TotalActiveAndInactiveMembers;
+import com.GymManager.Backend.domain.dto.DashboardDtos.UserTypeloggedInDto;
 import com.GymManager.Backend.domain.dto.SaleAndSuscription.SubscriptionDto;
 import com.GymManager.Backend.domain.dto.SaleAndSuscription.SubscriptionResponse;
 import com.GymManager.Backend.domain.repository.GymMemberPersistencePort;
@@ -9,6 +12,8 @@ import com.GymManager.Backend.domain.service.SubscriptionService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 public class SubscriptionServiceImpl implements SubscriptionService {
@@ -41,5 +46,20 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     @Override
     public SubscriptionResponse getByUser(Integer userId) {
         return this.subscriptionPersistencePort.getByUser(userId);
+    }
+
+    @Override
+    public List<MostUsedActiveMembershipDto> getByMostUsedMembership() {
+        return this.subscriptionPersistencePort.findMostUsedMembership();
+    }
+
+    @Override
+    public List<UserTypeloggedInDto> getTypesOfUserLoggedIn() {
+        return this.subscriptionPersistencePort.findTypesOfUserByMonth();
+    }
+
+    @Override
+    public TotalActiveAndInactiveMembers getToTalActiveAndInactiveMembers() {
+        return this.subscriptionPersistencePort.findAllToTalActiveAndInactiveMembers();
     }
 }
