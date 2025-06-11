@@ -16,5 +16,6 @@ public interface SubscriptionPersistencePort {
     boolean existsByMember_IdMember(Integer idMember);
     Optional<SubscriptionEntity> findByMember_IdMember(Integer idMember);
     void delete(SubscriptionEntity subscription);
-
+     // ✔ Para estado = 2 (todos los miembros)
+    List<SubscriptionEntity> findByStatus(Boolean status);
 }

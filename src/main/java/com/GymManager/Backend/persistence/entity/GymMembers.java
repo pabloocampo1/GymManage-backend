@@ -15,11 +15,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
-
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "gym_members")
@@ -51,11 +49,11 @@ public class GymMembers {
     private String email;
 
     @Column(nullable = false)
-    @NotBlank(message = "El género es obligatorio")
+     @NotBlank(message = "El género es obligatorio")
     private String gender;
 
     @Column(name = "emergency_phone", nullable = false)
-    @NotNull(message = "El teléfono de emergencia es obligatorio")
+     @NotNull(message = "El teléfono de emergencia es obligatorio")
     private Integer emergencyPhone;
 
     @CreatedDate

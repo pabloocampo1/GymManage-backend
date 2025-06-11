@@ -11,17 +11,15 @@ import java.util.List;
 
 @Entity
 @Table(name = "subscription")
+@Data
 @Builder
-@Getter
-@Setter
-@EntityListeners(AuditingEntityListener.class)
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
 public class SubscriptionEntity {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_subscription") // nombre de la columna en SQL
+    @Column(name = "id_subscription")
     private Integer subscriptionId;
 
     @OneToOne(fetch = FetchType.LAZY)
@@ -44,6 +42,4 @@ public class SubscriptionEntity {
     @OneToMany(mappedBy = "subscription")
     @JsonIgnore
     private List<SaleRegisterEntity> payments;
-
-
 }

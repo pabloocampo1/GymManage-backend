@@ -6,5 +6,7 @@ import java.util.List;
 
 public interface AccessLogService {
     Boolean save(Integer userId);
-    List<AccessLogEntity> getAll();
+    List<AccessLogEntity> getAllMemberToday();
+    List<AccessLogEntity> getAllMemberMonth();
+    void deleteAllToday();
 }

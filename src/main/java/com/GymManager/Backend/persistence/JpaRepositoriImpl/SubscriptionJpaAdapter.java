@@ -98,4 +98,8 @@ public class SubscriptionJpaAdapter implements SubscriptionPersistencePort {
     public void saveDirect(SubscriptionEntity subscription) {
         this.subscriptionCrudRepository.save(subscription);
     }
+    @Override
+    public List<SubscriptionEntity> findByStatus(Boolean status) {
+        return subscriptionCrudRepository.findByStatus(status);
+    }
 }

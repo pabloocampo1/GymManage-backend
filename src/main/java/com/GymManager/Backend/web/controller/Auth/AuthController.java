@@ -82,19 +82,20 @@ public class AuthController {
 
                 UserEntity user = this.userCrudRepository.findByEmailAndAvailableTrue(email)
                         .orElseThrow();
-                String jwt = this.authService.createjwt(user.getUsername(), user.getRole().getNameRole());
+                String jwt = this.authService.createjwt(user.getUsername(), "ROLE_"+ user.getRole().getNameRole());
 
-                return ResponseEntity.ok(
-                        AuthResponseDto
-                                .builder()
-                                .status(true)
-                                .role(user.getRole().getNameRole())
-                                .username(user.getUsername())
-                                .message("Logged with google successfully")
-                                .jwt(jwt)
-                                .build()
-                );
+
+                return ResponseEntity.ok( AuthResponseDto
+                        .builder()
+                        .message("logged success")
+                        .username(user.getUsername())
+                        .role("ROLE_"+user.getRole().getNameRole())
+                        .jwt(jwt)
+                        .status(true)
+                        .build());
+
             } else {
+                System.out.println("es el backend mano");
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
             }
         } catch (Exception e) {

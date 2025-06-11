@@ -48,10 +48,14 @@ public class SecurityConfig {
                     request.requestMatchers(HttpMethod.POST, "/api/user/save").permitAll();
                     request.requestMatchers(HttpMethod.POST, "/api/auth/resetPassword").permitAll();
                     request.requestMatchers(HttpMethod.GET, "/api/auth/isValidTokenResetPassword/*").permitAll();
-                    request.requestMatchers( "/api/inventory/**").hasRole(ROLE_ADMIN);
-                    request.requestMatchers( "/api/Eventos/**").hasRole(ROLE_ADMIN);
-                    request.requestMatchers( "/api/miembros/**").hasRole(ROLE_ADMIN);
-                    request.requestMatchers( "/api/membresias/**").permitAll();
+                    request.requestMatchers( "/api/inventory/**").hasAnyRole(ROLE_ADMIN, ROLE_SUPERADMIN);
+                    request.requestMatchers( "/api/members/**").hasAnyRole(ROLE_ADMIN, ROLE_SUPERADMIN);
+                    request.requestMatchers( "/api/membership/**").hasAnyRole(ROLE_ADMIN, ROLE_SUPERADMIN);
+                    request.requestMatchers( "/api/visits/**").hasAnyRole(ROLE_ADMIN, ROLE_SUPERADMIN);
+                    request.requestMatchers( "/api/activity/**").hasAnyRole(ROLE_ADMIN, ROLE_SUPERADMIN);
+                    request.requestMatchers( "/api/Eventos/**").permitAll();
+                    request.requestMatchers("/api/correo/send").permitAll();
+                    request.requestMatchers("/api/sales/**").hasAnyRole(ROLE_ADMIN, ROLE_SUPERADMIN);
                     request.anyRequest().authenticated();
                 })
                 .httpBasic(Customizer.withDefaults())
