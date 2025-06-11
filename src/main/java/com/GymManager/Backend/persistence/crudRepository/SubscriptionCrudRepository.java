@@ -41,7 +41,7 @@ public interface SubscriptionCrudRepository extends CrudRepository<SubscriptionE
             ) AS m
             LEFT JOIN (
                SELECT MONTH(s.created_date) AS month, COUNT(*) AS total
-                FROM membership_entity s
+                FROM subscription s
                 WHERE YEAR(s.created_date) = :year
                 GROUP BY MONTH(s.created_date)
             ) AS s ON s.month = m.month

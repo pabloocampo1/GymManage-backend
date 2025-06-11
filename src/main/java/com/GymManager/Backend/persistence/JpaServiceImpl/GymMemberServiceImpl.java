@@ -13,6 +13,7 @@ import com.GymManager.Backend.domain.service.SaleService;
 import com.GymManager.Backend.domain.service.SubscriptionService;
 import com.GymManager.Backend.persistence.Mappers.GymMemberMapper;
 import com.GymManager.Backend.persistence.entity.GymMembers;
+import com.GymManager.Backend.persistence.projections.AllDataAboutUser;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -116,7 +117,6 @@ public class GymMemberServiceImpl implements GymMemberService {
 
     @Override
     public List<SubscriptionResponse> getAllByParam(String param) {
-        System.out.println("llego aca al service");
         List<GymMembers> members = this.gymMemberPersistencePort.findAllByParam(param);
 
         List<SubscriptionResponse> responseSubscriptions = members.stream().map(member -> {
@@ -136,6 +136,15 @@ public class GymMemberServiceImpl implements GymMemberService {
     @Override
     public List<AverageGenderDistributionDto> getTotalMemberByGender() {
         return this.gymMemberPersistencePort.findTotalMembersByGender();
+    }
+
+    @Override
+    public List<GymMemberFullData> getLastRegisteredMember() {
+        List<AllDataAboutUser> members = this.gymMemberPersistencePort.findAllLastRegisteredMembers();
+        return members
+                .stream()
+                .map(this.gymMemberMapper::toFullData)
+                .toList();
     }
 
 

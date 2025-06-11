@@ -63,24 +63,25 @@ public class SaleJpaAdapter implements SalePersitencePort {
     public TotalRevenueByMembershipDto getTotalRevenueByMembership() {
         int year = LocalDateTime.now().getYear();
         List<MembershipEntity> allMembership = this.membresiaRepository.findAll();
-        HashMap<String, List<Double>> result = new HashMap<>();
 
-        for (MembershipEntity m : allMembership){
-            List<Double> amounts = new ArrayList<>(Collections.nCopies(12,0.0));
+        Map<String, List<Double>> resultByMembership = new HashMap<>();
+
+        for (MembershipEntity m : allMembership) {
+            List<Double> amounts = new ArrayList<>(Collections.nCopies(12, 0.0));
 
             List<Object[]> data = this.saleCrudRepository.findByMembership(m.getId(), year);
-            for (Object[] data_amount : data){
+            for (Object[] data_amount : data) {
                 Integer month = (Integer) data_amount[0];
                 Double amount = (double) data_amount[1];
                 amounts.set(month - 1, amount);
             }
 
-            result.put(m.getTitle(), amounts);
-
+            resultByMembership.put(m.getTitle(), amounts);
         }
 
-        return new TotalRevenueByMembershipDto(result);
+        return new TotalRevenueByMembershipDto(resultByMembership);
     }
+
 
     @Override
     public List<TotalMonthlyRevenueDto> findAllByMountByMonth() {

@@ -7,11 +7,12 @@ import lombok.NoArgsConstructor;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class TotalRevenueByMembershipDto {
-    private HashMap<String, List<Double>> all;
+    private Map<String, List<Double>> memberships;
 }

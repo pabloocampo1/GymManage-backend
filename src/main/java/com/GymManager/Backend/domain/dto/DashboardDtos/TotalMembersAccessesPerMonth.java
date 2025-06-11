@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class AverageGenderDistributionDto {
-    private String gender;
+public class TotalMembersAccessesPerMonth {
+    private Long month;
     private Long total;
 }

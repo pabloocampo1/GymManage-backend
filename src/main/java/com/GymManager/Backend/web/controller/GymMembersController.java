@@ -48,6 +48,11 @@ public class GymMembersController {
     public ResponseEntity<List<SubscriptionResponse>> getAllByParam(@PathVariable("param") String param ) {
         return new ResponseEntity<>(this.gymMemberService.getAllByParam(param), HttpStatus.OK);
     }
+
+    @GetMapping("/getLastRegisteredUser")
+    public ResponseEntity<List<GymMemberFullData>> getLastRegisteredUser(){
+        return new ResponseEntity<>(this.gymMemberService.getLastRegisteredMember(), HttpStatus.OK);
+    };
     @GetMapping("/getFullData/{id}")
     public ResponseEntity<GymMemberFullData> getAllByParam(@Valid @PathVariable("id") Integer userId ) {
         return new ResponseEntity<>(this.gymMemberService.getFullDataMember(userId), HttpStatus.OK);

@@ -58,4 +58,28 @@ public interface GymMemberCrudRepo extends CrudRepository<GymMembers, Integer> {
     """, nativeQuery = true)
     List<AverageGenderDistributionProjection> findTotalMembersByGender(@Param("year") int year);
 
+    @Query(nativeQuery = true,
+            value = """
+               SELECT 	
+                   g.id_member as id,
+                   g.full_name as fullName,
+                   g.identification_number as dni,
+                   g.birth_date as dateOfBirth,
+                   g.phone as phone,
+                   g.email as email,
+                   g.gender as gender,
+                   g.create_date as createDate,
+                   m.type as typeMembership,
+                   m.title as nameMembership,
+                   s.status as stateOfMembership,
+                   s.start_date as dateStart,
+                   s.finish_date as dateFinished
+               FROM gym_members g
+               INNER JOIN subscription s ON s.member_id = g.id_member
+               INNER JOIN membership_entity m ON m.id = s.id_membership
+               WHERE YEAR(g.create_date) = :year
+               ORDER BY g.create_date DESC
+               LIMIT 7
+               """)
+    List<AllDataAboutUser> findAllLastUserRegistered(@Param("year") int year);
 }

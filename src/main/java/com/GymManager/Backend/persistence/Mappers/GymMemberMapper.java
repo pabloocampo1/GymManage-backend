@@ -3,6 +3,7 @@ package com.GymManager.Backend.persistence.Mappers;
 import com.GymManager.Backend.domain.dto.GymMember.GymMemberDto;
 import com.GymManager.Backend.domain.dto.GymMember.GymMemberFullData;
 import com.GymManager.Backend.persistence.entity.GymMembers;
+import com.GymManager.Backend.persistence.projections.AllDataAboutUser;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -31,6 +32,24 @@ public class GymMemberMapper {
         dto.setGender(entity.getGender());
         dto.setEmergencyPhone(entity.getEmergencyPhone());
         return dto;
+    }
+
+    public GymMemberFullData toFullData(AllDataAboutUser allData){
+        return GymMemberFullData.builder()
+                .id(allData.getId())
+                .fullName(allData.getFullName())
+                .dni(allData.getDni())
+                .dateOfBirth(allData.getDateOfBirth())
+                .phone(allData.getPhone() != null ? allData.getPhone().toString() : null)
+                .email(allData.getEmail())
+                .gender(allData.getGender())
+                .createDate(allData.getCreateDate())
+                .nameMembership(allData.getNameMembership())
+                .typeMembership(allData.getTypeMembership())
+                .stateOfMembership(allData.getStateOfMembership())
+                .dateStart(allData.getDateStart())
+                .dateFinished(allData.getDateFinished())
+                .build();
     }
 
 

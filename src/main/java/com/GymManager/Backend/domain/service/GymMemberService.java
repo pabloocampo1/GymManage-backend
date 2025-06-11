@@ -23,4 +23,5 @@ public interface GymMemberService {
     List<SubscriptionResponse> getAllByParam(String param);
     GymMemberFullData getFullDataMember(@Valid Integer userId);
     List<AverageGenderDistributionDto> getTotalMemberByGender();
+    List<GymMemberFullData> getLastRegisteredMember();
 }

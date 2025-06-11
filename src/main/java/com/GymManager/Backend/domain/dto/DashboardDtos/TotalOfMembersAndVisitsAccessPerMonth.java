@@ -9,7 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class AverageGenderDistributionDto {
-    private String gender;
-    private Long total;
+public class TotalOfMembersAndVisitsAccessPerMonth {
+    private Long month;
+    private Long visits;
+    private Long members;
 }

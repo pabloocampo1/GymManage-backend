@@ -1,5 +1,7 @@
 package com.GymManager.Backend.persistence.JpaServiceImpl;
 
+import com.GymManager.Backend.domain.dto.DashboardDtos.TotalMembersAccessesPerMonth;
+import com.GymManager.Backend.domain.dto.DashboardDtos.TotalOfMembersAndVisitsAccessPerMonth;
 import com.GymManager.Backend.domain.dto.SaleAndSuscription.SubscriptionResponse;
 import com.GymManager.Backend.domain.repository.AccessLogPersistencePort;
 import com.GymManager.Backend.domain.service.AccessLogService;
@@ -63,6 +65,16 @@ public class AccessLogServiceImpl implements AccessLogService {
         LocalDateTime start = LocalDate.now().atStartOfDay();
         LocalDateTime end = LocalDate.now().atTime(LocalTime.MAX);
         this.accessLogPersistencePort.deleteAllByToday(start, end);
+    }
+
+    @Override
+    public List<TotalMembersAccessesPerMonth> getTotalAccessPerMonth() {
+        return this.accessLogPersistencePort.findAllTotalAccessPerMonth();
+    }
+
+    @Override
+    public List<TotalOfMembersAndVisitsAccessPerMonth> getTotalOfMembersAndVisitsAccessPerMonthList() {
+        return this.accessLogPersistencePort.FindAllTotalOfMembersAndVisitsAccessPerMonthList();
     }
 
 

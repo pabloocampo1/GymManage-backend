@@ -35,4 +35,6 @@ public class DashboardFullDto {
     private List<UserTypeloggedInDto> userTypeloggedInDtoList;
     private TotalActiveAndInactiveMembers totalActiveAndInactiveMembers;
     private List<AverageGenderDistributionDto> averageGenderDistributionDtoList;
+    private List<TotalMembersAccessesPerMonth> totalMembersAccessesPerMonthList;
+    private List<TotalOfMembersAndVisitsAccessPerMonth> totalOfMembersAndVisitsAccessPerMonthList;
 }

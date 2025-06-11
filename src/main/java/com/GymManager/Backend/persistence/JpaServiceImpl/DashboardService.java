@@ -68,6 +68,8 @@ public class DashboardService {
         dashboardFullDto.setUserTypeloggedInDtoList(this.subscriptionService.getTypesOfUserLoggedIn());
         dashboardFullDto.setTotalActiveAndInactiveMembers(this.subscriptionService.getToTalActiveAndInactiveMembers());
         dashboardFullDto.setAverageGenderDistributionDtoList( this.gymMemberService.getTotalMemberByGender());
+        dashboardFullDto.setTotalMembersAccessesPerMonthList(this.accessLogService.getTotalAccessPerMonth());
+        dashboardFullDto.setTotalOfMembersAndVisitsAccessPerMonthList(this.accessLogService.getTotalOfMembersAndVisitsAccessPerMonthList());
         return dashboardFullDto;
     }
 

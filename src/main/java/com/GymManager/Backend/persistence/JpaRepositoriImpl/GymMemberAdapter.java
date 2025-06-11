@@ -20,6 +20,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.time.Year;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -122,6 +123,13 @@ public class GymMemberAdapter implements GymMemberPersistencePort {
             result.add(totalByGenderToAdd);
         }
         return result;
+    }
+
+    @Override
+    public List<AllDataAboutUser> findAllLastRegisteredMembers() {
+        int year = LocalDateTime.now().getYear();
+
+        return this.gymMemberCrudRepo.findAllLastUserRegistered(year);
     }
 
 
