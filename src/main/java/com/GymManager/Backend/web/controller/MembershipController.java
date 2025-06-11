@@ -2,13 +2,14 @@ package com.GymManager.Backend.web.controller;
 
 import com.GymManager.Backend.domain.dto.MembresiaDto;
 import com.GymManager.Backend.domain.service.MembresiaService;
-
+import com.GymManager.Backend.persistence.entity.MembershipEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Arrays;
 
 
 @RestController
@@ -27,6 +28,11 @@ public class MembershipController {
         return ResponseEntity.ok(membresiaService.getAll());
     }
 
+    @GetMapping("/public")
+    public ResponseEntity<List<MembresiaDto>> getAllPublic() {
+        return ResponseEntity.ok(membresiaService.getAll());
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<MembresiaDto> getById(@PathVariable("id") Integer id) {
         try{
@@ -35,8 +41,8 @@ public class MembershipController {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
     }
+
 
     @PostMapping
     public ResponseEntity<MembresiaDto> create(@RequestBody MembresiaDto dto) {
