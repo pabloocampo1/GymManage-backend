@@ -10,6 +10,7 @@ import com.GymManager.Backend.domain.repository.SalePersitencePort;
 import com.GymManager.Backend.domain.service.SaleService;
 import com.GymManager.Backend.persistence.entity.GymMembers;
 import com.GymManager.Backend.persistence.entity.MembershipEntity;
+import com.GymManager.Backend.persistence.entity.RegularVisitEntity;
 import com.GymManager.Backend.persistence.entity.SaleRegisterEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -97,6 +98,21 @@ public class SaleServiceImple implements SaleService {
     @Override
     public List<SaleResponse> findByPaymentMethod(String method) {
         return List.of();
+    }
+
+    @Override
+    public void saveSaleOfVisit(RegularVisitEntity regularVisitEntity) {
+        MembershipEntity membershipRegular = this.membresiaRepository.findRegularMembership()
+                .orElseThrow(() -> new RuntimeException("Membership regular no exist. "));
+
+        SaleRegisterEntity newSale = new SaleRegisterEntity();
+        newSale.setMember(membershipRegular.getId());
+        newSale.setAmount(membershipRegular.getPrice());
+        newSale.setMembership(membershipRegular.getId());
+        newSale.setPaymentMethod("Efectivo");
+        newSale.setReceptionistName("Sistema");
+
+       this.salePersitencePort.saveSaleDirect(newSale);
     }
 
     @Override

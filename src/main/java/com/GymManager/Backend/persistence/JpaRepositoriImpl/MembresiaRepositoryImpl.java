@@ -43,6 +43,11 @@ public class MembresiaRepositoryImpl implements MembresiaRepository {
     }
 
     @Override
+    public Optional<MembershipEntity> findRegularMembership() {
+        return this.crudRepository.findMembershipRegular();
+    }
+
+    @Override
     public void deleteById(Integer id) {
         this.crudRepository.deleteById(id);
     }

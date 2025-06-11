@@ -1,4 +1,4 @@
-package com.GymManager.Backend.persistence.JpaServiceImpl;
+package com.GymManager.Backend.persistence.JpaServiceImpl.SubscriptionServices;
 
 import com.GymManager.Backend.domain.dto.DashboardDtos.MostUsedActiveMembershipDto;
 import com.GymManager.Backend.domain.dto.DashboardDtos.TotalActiveAndInactiveMembers;

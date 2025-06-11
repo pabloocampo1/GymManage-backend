@@ -13,11 +13,25 @@ import java.util.List;
 
 public interface AccessLogCrudRepository extends CrudRepository<AccessLogEntity, Integer> {
 
-    @Query("SELECT a FROM AccessLogEntity a WHERE a.createDate >= :start AND a.createDate <= :end  ORDER BY a.createDate   ")
-    List<AccessLogEntity> findAllByToday(@Param("start") LocalDateTime start, @Param("end") LocalDateTime end);
+    @Query("""
+            SELECT
+                a 
+             FROM AccessLogEntity a 
+             WHERE 
+                a.createDate >= :start AND a.createDate <= :end AND FUNCTION('YEAR', a.createDate) = :year
+             ORDER BY a.createDate  DESC  
+            """)
+    List<AccessLogEntity> findAllByToday(@Param("year") int year,@Param("start") LocalDateTime start, @Param("end") LocalDateTime end);
 
-    @Query("SELECT a FROM AccessLogEntity a WHERE a.createDate >= :start AND a.createDate <= :end   ORDER BY a.createDate  ")
-    List<AccessLogEntity> findAllByMonth(@Param("start") LocalDateTime start, @Param("end") LocalDateTime end);
+    @Query("""
+            SELECT
+                a 
+             FROM AccessLogEntity a 
+             WHERE 
+                a.createDate >= :start AND a.createDate <= :end  AND FUNCTION('YEAR', a.createDate) = :year
+             ORDER BY a.createDate DESC 
+            """)
+    List<AccessLogEntity> findAllByMonth(@Param("year") int year,@Param("start") LocalDateTime start, @Param("end") LocalDateTime end);
 
     @Transactional
     @Modifying

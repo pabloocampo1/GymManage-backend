@@ -37,15 +37,17 @@ public class AccessLogJpaAdapter implements AccessLogPersistencePort {
     public List<AccessLogEntity> getAllMemberToday() {
         LocalDateTime startOfDay = LocalDate.now().atStartOfDay();
         LocalDateTime endOfDay = LocalDate.now().atTime(LocalTime.MAX);
-        return (List<AccessLogEntity>) this.accessLogCrudRepository.findAllByToday(startOfDay, endOfDay);
+        int year = LocalDateTime.now().getYear();
+        return (List<AccessLogEntity>) this.accessLogCrudRepository.findAllByToday(year,startOfDay, endOfDay);
     }
 
     @Override
     public List<AccessLogEntity> getAllMemberMonth() {
         YearMonth currentMonth = YearMonth.now();
+        int year = LocalDateTime.now().getYear();
         LocalDateTime startOfMonth = currentMonth.atDay(1).atStartOfDay();
         LocalDateTime endOfMonth = currentMonth.atEndOfMonth().atTime(LocalTime.MAX);
-        return (List<AccessLogEntity>) this.accessLogCrudRepository.findAllByMonth(startOfMonth, endOfMonth);
+        return (List<AccessLogEntity>) this.accessLogCrudRepository.findAllByMonth(year,startOfMonth, endOfMonth);
     }
 
     @Override
