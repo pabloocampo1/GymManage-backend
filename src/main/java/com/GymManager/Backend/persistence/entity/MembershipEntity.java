@@ -11,6 +11,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -37,6 +38,12 @@ public class MembershipEntity {
 
     @Column(nullable = false)
     private Double price;
+
+    @ElementCollection
+    @CollectionTable(name = "membership_benefits", 
+                    joinColumns = @JoinColumn(name = "membership_id"))
+    @Column(name = "benefit")
+    private List<String> benefits = new ArrayList<>();
 
     @CreatedDate
     private LocalDateTime createdDate;

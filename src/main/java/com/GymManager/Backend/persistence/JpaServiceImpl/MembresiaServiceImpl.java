@@ -1,6 +1,4 @@
-
 package com.GymManager.Backend.persistence.JpaServiceImpl;
-
 
 import com.GymManager.Backend.domain.dto.MembresiaDto;
 import com.GymManager.Backend.domain.repository.MembresiaRepository;
@@ -62,17 +60,15 @@ public class MembresiaServiceImpl implements MembresiaService {
         existente.setType(dto.getType());
         existente.setDuration(dto.getDuration());
         existente.setPrice(dto.getPrice());
-
+        existente.setBenefits(dto.getBenefits());
 
         MembershipEntity actualizado = membresiaRepository.save(existente);
 
         return membresiaMapper.toDto(actualizado);
     }
 
-
     @Override
     public void delete(Integer id) {
         membresiaRepository.deleteById(id);
-
     }
 }
