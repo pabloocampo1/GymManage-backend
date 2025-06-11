@@ -102,7 +102,7 @@ public class ActivityController {
         ).toList();
 
         List<AccessLogEntity> result = Stream.concat(access.stream(), regularVisitToAccess.stream())
-                .sorted(Comparator.comparing(AccessLogEntity::getCreateDate))
+                .sorted(Comparator.comparing(AccessLogEntity::getCreateDate).reversed())
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(result);
@@ -128,8 +128,10 @@ public class ActivityController {
         ).toList();
 
         List<AccessLogEntity> result = Stream.concat(access.stream(), regularVisitToAccess.stream())
-                .sorted(Comparator.comparing(AccessLogEntity::getCreateDate))
+                .sorted(Comparator.comparing(AccessLogEntity::getCreateDate).reversed())
                 .collect(Collectors.toList());
+
+
 
         return ResponseEntity.ok(result);
     }

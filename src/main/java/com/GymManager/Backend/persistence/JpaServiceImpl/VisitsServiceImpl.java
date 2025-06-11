@@ -1,7 +1,9 @@
 package com.GymManager.Backend.persistence.JpaServiceImpl;
 
+import com.GymManager.Backend.domain.dto.DashboardDtos.TotalVisitAccessesPerMonth;
 import com.GymManager.Backend.domain.repository.SalePersitencePort;
 import com.GymManager.Backend.domain.repository.VisitsPersistencePort;
+import com.GymManager.Backend.domain.service.SaleService;
 import com.GymManager.Backend.domain.service.VisitsService;
 import com.GymManager.Backend.persistence.entity.RegularVisitEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,18 +18,21 @@ import java.util.List;
 @Service
 public class VisitsServiceImpl implements VisitsService {
     private final VisitsPersistencePort visitsPersistencePort;
-    private final SalePersitencePort salePersitencePort;
+    private final SaleService saleService;
 
     @Autowired
-    public VisitsServiceImpl(VisitsPersistencePort visitsPersistencePort, SalePersitencePort salePersitencePort) {
+    public VisitsServiceImpl(VisitsPersistencePort visitsPersistencePort, SaleService saleService) {
         this.visitsPersistencePort = visitsPersistencePort;
-        this.salePersitencePort = salePersitencePort;
+        this.saleService = saleService;
+
     }
 
     @Transactional
     public RegularVisitEntity save(RegularVisitEntity regularVisitEntity){
         try{
-          return this.visitsPersistencePort.save(regularVisitEntity);
+            RegularVisitEntity visitsSaved = this.visitsPersistencePort.save(regularVisitEntity);
+            this.saleService.saveSaleOfVisit(visitsSaved);
+          return visitsSaved;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -49,5 +54,10 @@ public class VisitsServiceImpl implements VisitsService {
         LocalDateTime startOfDay = LocalDate.now().atStartOfDay();
         LocalDateTime endOfDay = LocalDate.now().atTime(LocalTime.MAX);
         this.visitsPersistencePort.deleteAllToday(startOfDay, endOfDay);
+    }
+
+    @Override
+    public List<TotalVisitAccessesPerMonth> findAllTotalVisitsByMonth() {
+        return this.visitsPersistencePort.findAllTotalVisitsByMonth();
     }
 }

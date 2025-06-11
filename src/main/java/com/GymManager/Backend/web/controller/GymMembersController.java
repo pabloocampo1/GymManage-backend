@@ -44,10 +44,16 @@ public class GymMembersController {
         return new ResponseEntity<>(this.gymMemberService.getAll(), HttpStatus.OK);
     }
 
+
     @GetMapping("/searchControlAccess/{param}")
     public ResponseEntity<List<SubscriptionResponse>> getAllByParam(@PathVariable("param") String param ) {
         return new ResponseEntity<>(this.gymMemberService.getAllByParam(param), HttpStatus.OK);
     }
+
+    @GetMapping("/getLastRegisteredUser")
+    public ResponseEntity<List<GymMemberFullData>> getLastRegisteredUser(){
+        return new ResponseEntity<>(this.gymMemberService.getLastRegisteredMember(), HttpStatus.OK);
+    };
 
     @GetMapping("/getFullData/{id}")
     public ResponseEntity<GymMemberFullData> getAllByParam(@Valid @PathVariable("id") Integer userId ) {
@@ -62,6 +68,8 @@ public class GymMembersController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteMember(@PathVariable String id) {

@@ -14,4 +14,5 @@ public interface MembresiaRepository {
     void deleteById(Integer id);
     MembershipEntity update(MembershipEntity membresia);
     Boolean existById(Integer id);
+    Optional<MembershipEntity> findRegularMembership();
 }

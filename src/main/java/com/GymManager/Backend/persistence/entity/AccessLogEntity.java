@@ -11,7 +11,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "access-log")
+@Table(name = "access_log")
 @NoArgsConstructor
 @Data
 @EntityListeners(AuditingEntityListener.class)
@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 public class AccessLogEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id-access-log")
+    @Column(name = "id_access_log")
     private Integer idAccessLog;
 
     @ManyToOne

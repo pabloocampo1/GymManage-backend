@@ -1,6 +1,8 @@
 package com.GymManager.Backend.domain.service;
 
 
+import com.GymManager.Backend.domain.dto.DashboardDtos.AverageGenderDistributionDto;
+import com.GymManager.Backend.domain.dto.DashboardDtos.TotalActiveAndInactiveMembers;
 import com.GymManager.Backend.domain.dto.GymMember.GymMemberDto;
 import com.GymManager.Backend.domain.dto.GymMember.GymMemberFullData;
 import com.GymManager.Backend.domain.dto.GymMember.GymMemberRequest;
@@ -20,4 +22,6 @@ public interface GymMemberService {
     GymMemberDto update(Integer id, GymMemberDto gymMemberDto);
     List<SubscriptionResponse> getAllByParam(String param);
     GymMemberFullData getFullDataMember(@Valid Integer userId);
+    List<AverageGenderDistributionDto> getTotalMemberByGender();
+    List<GymMemberFullData> getLastRegisteredMember();
 }
