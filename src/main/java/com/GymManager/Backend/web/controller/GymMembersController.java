@@ -10,12 +10,14 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/members")
+@CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
 public class GymMembersController {
 
     private final GymMemberService gymMemberService;
@@ -30,7 +32,6 @@ public class GymMembersController {
     @PostMapping
     public ResponseEntity<GymMemberDto> createMember(@Valid @RequestBody GymMemberRequest gymMemberRequest) {
         try{
-
             return new ResponseEntity<>(this.gymMemberService.save(gymMemberRequest), HttpStatus.CREATED);
         } catch (Exception e) {
             e.printStackTrace();
@@ -43,11 +44,11 @@ public class GymMembersController {
         return new ResponseEntity<>(this.gymMemberService.getAll(), HttpStatus.OK);
     }
 
-
     @GetMapping("/searchControlAccess/{param}")
     public ResponseEntity<List<SubscriptionResponse>> getAllByParam(@PathVariable("param") String param ) {
         return new ResponseEntity<>(this.gymMemberService.getAllByParam(param), HttpStatus.OK);
     }
+
     @GetMapping("/getFullData/{id}")
     public ResponseEntity<GymMemberFullData> getAllByParam(@Valid @PathVariable("id") Integer userId ) {
         return new ResponseEntity<>(this.gymMemberService.getFullDataMember(userId), HttpStatus.OK);
@@ -55,14 +56,12 @@ public class GymMembersController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getMemberById(@PathVariable String id) {
-            try{
-                return new ResponseEntity<>(this.gymMemberService.getById(Integer.parseInt(id)), HttpStatus.OK);
-            } catch (Exception e) {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
+        try{
+            return new ResponseEntity<>(this.gymMemberService.getById(Integer.parseInt(id)), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
-
-
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteMember(@PathVariable String id) {
@@ -75,13 +74,18 @@ public class GymMembersController {
        }
     }
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<GymMemberDto> updateMember(@Valid @PathVariable String id, @Valid @RequestBody GymMemberDto updatedDTO) {
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateMember(@Valid @PathVariable String id, @Valid @RequestBody GymMemberDto updatedDTO) {
         try {
-            return new ResponseEntity<>(this.gymMemberService.update(Integer.valueOf(id), updatedDTO), HttpStatus.OK);
+            GymMemberDto updated = this.gymMemberService.update(Integer.valueOf(id), updatedDTO);
+            return new ResponseEntity<>(updated, HttpStatus.OK);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (UsernameNotFoundException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         } catch (Exception e) {
             e.printStackTrace();
-          return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Error interno del servidor", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

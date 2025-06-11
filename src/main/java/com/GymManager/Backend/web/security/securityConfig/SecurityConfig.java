@@ -50,8 +50,11 @@ public class SecurityConfig {
                     request.requestMatchers(HttpMethod.GET, "/api/auth/isValidTokenResetPassword/*").permitAll();
                     request.requestMatchers("/api/Eventos/**").permitAll();
                     request.requestMatchers(HttpMethod.GET, "/api/membership/public").permitAll();
+                    request.requestMatchers(HttpMethod.GET, "/api/members/**").hasAnyRole(ROLE_ADMIN, ROLE_SUPERADMIN);
+                    request.requestMatchers(HttpMethod.POST, "/api/members/**").hasAnyRole(ROLE_ADMIN, ROLE_SUPERADMIN);
+                    request.requestMatchers(HttpMethod.PUT, "/api/members/**").hasAnyRole(ROLE_ADMIN, ROLE_SUPERADMIN);
+                    request.requestMatchers(HttpMethod.DELETE, "/api/members/**").hasAnyRole(ROLE_ADMIN, ROLE_SUPERADMIN);
                     request.requestMatchers("/api/inventory/**").hasAnyRole(ROLE_ADMIN, ROLE_SUPERADMIN);
-                    request.requestMatchers("/api/members/**").hasAnyRole(ROLE_ADMIN, ROLE_SUPERADMIN);
                     request.requestMatchers("/api/membership/**").hasAnyRole(ROLE_ADMIN, ROLE_SUPERADMIN);
                     request.requestMatchers("/api/visits/**").hasAnyRole(ROLE_ADMIN, ROLE_SUPERADMIN);
                     request.requestMatchers("/api/activity/**").hasAnyRole(ROLE_ADMIN, ROLE_SUPERADMIN);
