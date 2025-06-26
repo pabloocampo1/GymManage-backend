@@ -81,7 +81,6 @@ public class GymMembersController {
            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
        }
     }
-
     @PutMapping("/{id}")
     public ResponseEntity<?> updateMember(@Valid @PathVariable String id, @Valid @RequestBody GymMemberDto updatedDTO) {
         try {
