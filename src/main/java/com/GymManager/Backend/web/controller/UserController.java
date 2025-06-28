@@ -28,4 +28,9 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+
+    @GetMapping("/getEmail/{email}")
+    public ResponseEntity<String> getEmailByUser(@PathVariable("email")String email){
+        return  new ResponseEntity<>(this.userService.getUserByEmail(email).getEmail(),HttpStatus.OK);
+    }
 }

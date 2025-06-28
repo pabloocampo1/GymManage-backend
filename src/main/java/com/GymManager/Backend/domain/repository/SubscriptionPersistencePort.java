@@ -20,6 +20,8 @@ public interface SubscriptionPersistencePort {
     boolean existsByMember_IdMember(Long idMember);
     Optional<SubscriptionEntity> findByMember_IdMember(Long idMember);
     void delete(SubscriptionEntity subscription);
+     // ✔ Para estado = 2 (todos los miembros)
+    List<SubscriptionEntity> findByStatus(Boolean status);
     List<MostUsedActiveMembershipDto> findMostUsedMembership();
     List<UserTypeloggedInDto> findTypesOfUserByMonth();
     TotalActiveAndInactiveMembers findAllToTalActiveAndInactiveMembers();

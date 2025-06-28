@@ -57,6 +57,8 @@ public class SecurityConfig {
 
                     // member
 
+                    request.requestMatchers(HttpMethod.GET, "/api/membership/public").permitAll();
+                    request.requestMatchers("/api/correo/send").permitAll();
                     request.requestMatchers(HttpMethod.GET, "/api/members/**").hasAnyRole(ROLE_ADMIN, ROLE_SUPERADMIN);
                     request.requestMatchers(HttpMethod.POST, "/api/members/**").hasAnyRole(ROLE_ADMIN, ROLE_SUPERADMIN);
                     request.requestMatchers(HttpMethod.PUT, "/api/members/**").hasAnyRole(ROLE_ADMIN, ROLE_SUPERADMIN);
@@ -79,6 +81,13 @@ public class SecurityConfig {
                     request.requestMatchers("/api/activity/**").hasAnyRole(ROLE_ADMIN, ROLE_SUPERADMIN);
 
                     // sales
+
+                    request.requestMatchers( "/api/members/**").hasAnyRole(ROLE_ADMIN, ROLE_SUPERADMIN);
+                    request.requestMatchers( "/api/membership/**").hasAnyRole(ROLE_ADMIN, ROLE_SUPERADMIN);
+                    request.requestMatchers( "/api/visits/**").hasAnyRole(ROLE_ADMIN, ROLE_SUPERADMIN);
+                    request.requestMatchers( "/api/activity/**").hasAnyRole(ROLE_ADMIN, ROLE_SUPERADMIN);
+
+
                     request.requestMatchers("/api/sales/**").hasAnyRole(ROLE_ADMIN, ROLE_SUPERADMIN);
 
                     // subscription

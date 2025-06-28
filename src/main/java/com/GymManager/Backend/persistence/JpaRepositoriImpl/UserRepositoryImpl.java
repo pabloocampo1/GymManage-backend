@@ -33,7 +33,7 @@ public class UserRepositoryImpl implements UserRepository {
     public UserResponseDto save(UserRequestDto user) {
         UserEntity newUser = this.userMapper.toEntity(user);
         RoleUserEntity role = this.roleUserCrudRepository.findById(1)
-                .orElseThrow(() -> new UsernameNotFoundException("no se encontro el id"));
+                .orElseThrow(() -> new UsernameNotFoundException("no se encontro el id: "));
         newUser.setRole(role);
         newUser.setAvailable(true);
         newUser.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -58,5 +58,13 @@ public class UserRepositoryImpl implements UserRepository {
     public UserEntity updateUser(UserEntity user) {
         return this.userCrudRepository.save(user);
     }
+
+
+    public String getEmailByUsername(String username){
+        return this.userCrudRepository.findByUsername(username)
+                .orElseThrow(()->new UsernameNotFoundException("User not found : "+ username))
+                .getEmail();
+    }
+
 
 }

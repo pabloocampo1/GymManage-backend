@@ -11,14 +11,12 @@ import java.util.List;
 
 @Entity
 @Table(name = "subscription")
+@Data
 @Builder
-@Getter
-@Setter
-@EntityListeners(AuditingEntityListener.class)
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
 public class SubscriptionEntity {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_subscription")
@@ -44,6 +42,4 @@ public class SubscriptionEntity {
     @OneToMany(mappedBy = "subscription")
     @JsonIgnore
     private List<SaleRegisterEntity> payments;
-
-
 }

@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class EMailHomeDto {
-    public String name;
-    public String email;
-    public String message;
+    private String name;
+    private String email;
+    private String message;
 }

@@ -45,5 +45,8 @@ public class UserServiceImpl implements UserService {
        return this.userRepository.updateUser(userEntity);
     }
 
+    public String getEmailByUser(String username){
+        return this.userRepository.getEmailByUsername(username);
+    }
 
 }

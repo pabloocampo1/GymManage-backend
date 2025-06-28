@@ -1,4 +1,4 @@
-// src/main/java/com/Prueba/ClodinaryRest/Repository/Mappers/InvetarioMapper.java
+
 package com.GymManager.Backend.persistence.Mappers;
 
 
