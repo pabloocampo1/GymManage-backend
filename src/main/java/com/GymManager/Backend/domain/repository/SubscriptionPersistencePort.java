@@ -5,6 +5,7 @@ import com.GymManager.Backend.domain.dto.DashboardDtos.TotalActiveAndInactiveMem
 import com.GymManager.Backend.domain.dto.DashboardDtos.UserTypeloggedInDto;
 import com.GymManager.Backend.domain.dto.SaleAndSuscription.SubscriptionDto;
 import com.GymManager.Backend.domain.dto.SaleAndSuscription.SubscriptionResponse;
+import com.GymManager.Backend.domain.dto.SaleAndSuscription.SubscriptionStatus;
 import com.GymManager.Backend.persistence.entity.SubscriptionEntity;
 
 import java.util.List;
@@ -15,11 +16,12 @@ public interface SubscriptionPersistencePort {
     List<SubscriptionEntity> findAll();
     SubscriptionResponse save(SubscriptionDto dto);
     void saveDirect(SubscriptionEntity subscription);
-    SubscriptionResponse getByUser(Integer userId);
-    boolean existsByMember_IdMember(Integer idMember);
-    Optional<SubscriptionEntity> findByMember_IdMember(Integer idMember);
+    SubscriptionResponse getByUser(Long userId);
+    boolean existsByMember_IdMember(Long idMember);
+    Optional<SubscriptionEntity> findByMember_IdMember(Long idMember);
     void delete(SubscriptionEntity subscription);
     List<MostUsedActiveMembershipDto> findMostUsedMembership();
     List<UserTypeloggedInDto> findTypesOfUserByMonth();
     TotalActiveAndInactiveMembers findAllToTalActiveAndInactiveMembers();
+    SubscriptionStatus findSubscriptionStatus(Long dni);
 }

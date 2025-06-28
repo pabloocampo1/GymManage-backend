@@ -23,7 +23,7 @@ public class SaleRegisterEntity {
     private Integer id;
 
     @Column(nullable = false)
-    private Integer member;
+    private Long member;
 
     @Column(nullable = false, length = 100)
     private String paymentMethod;

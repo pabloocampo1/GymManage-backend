@@ -5,13 +5,16 @@ import com.GymManager.Backend.domain.dto.DashboardDtos.TotalActiveAndInactiveMem
 import com.GymManager.Backend.domain.dto.DashboardDtos.UserTypeloggedInDto;
 import com.GymManager.Backend.domain.dto.SaleAndSuscription.SubscriptionDto;
 import com.GymManager.Backend.domain.dto.SaleAndSuscription.SubscriptionResponse;
+import com.GymManager.Backend.domain.dto.SaleAndSuscription.SubscriptionStatus;
 
 import java.util.List;
 
 public interface SubscriptionService {
     SubscriptionResponse save(SubscriptionDto subscriptionDto);
-    SubscriptionResponse getByUser(Integer userId);
+    SubscriptionResponse getByUser(Long userId);
     List<MostUsedActiveMembershipDto> getByMostUsedMembership();
     List<UserTypeloggedInDto> getTypesOfUserLoggedIn();
     TotalActiveAndInactiveMembers getToTalActiveAndInactiveMembers();
+    SubscriptionStatus getStatusSubscription(long dni);
 }
+

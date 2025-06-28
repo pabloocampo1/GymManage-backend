@@ -16,12 +16,12 @@ import java.util.Optional;
 public interface GymMemberService {
     GymMemberDto save(GymMemberRequest gymMemberDto);
     List<GymMemberDto> getAll();
-    GymMemberDto getById(Integer id);
-    Optional<GymMembers> getByIdDirect(Integer id);
-    void delete(Integer id);
-    GymMemberDto update(Integer id, GymMemberDto gymMemberDto);
+    GymMemberDto getById(Long id);
+    Optional<GymMembers> getByIdDirect(Long id);
+    void delete(Long id);
+    GymMemberDto update(Long id, GymMemberDto gymMemberDto);
     List<SubscriptionResponse> getAllByParam(String param);
-    GymMemberFullData getFullDataMember(@Valid Integer userId);
+    GymMemberFullData getFullDataMember(@Valid Long userId);
     List<AverageGenderDistributionDto> getTotalMemberByGender();
     List<GymMemberFullData> getLastRegisteredMember();
 }

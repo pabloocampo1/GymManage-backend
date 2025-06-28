@@ -28,10 +28,10 @@ public class GymMembers {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_member")
-    private Integer idMember;
+    private Long idMember;
 
     @Column(nullable = false, unique = true)
-    private Integer identificationNumber;
+    private Long identificationNumber;
 
     @Column(name = "full_name", nullable = false)
    // @NotBlank(message = "El nombre completo es obligatorio")
@@ -43,7 +43,7 @@ public class GymMembers {
 
     @Column(nullable = false)
     //  @NotNull(message = "El teléfono es obligatorio")
-    private Integer phone;
+    private Long phone;
 
     @Column(nullable = false, unique = true)
     // @Email(message = "El email debe ser válido")
@@ -56,7 +56,7 @@ public class GymMembers {
 
     @Column(name = "emergency_phone", nullable = false)
     //  @NotNull(message = "El teléfono de emergencia es obligatorio")
-    private Integer emergencyPhone;
+    private Long emergencyPhone;
 
     @CreatedDate
     @Column(name = "create_date", updatable = false)

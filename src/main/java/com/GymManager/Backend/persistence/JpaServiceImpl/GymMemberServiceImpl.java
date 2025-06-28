@@ -16,6 +16,7 @@ import com.GymManager.Backend.persistence.entity.GymMembers;
 import com.GymManager.Backend.persistence.projections.AllDataAboutUser;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -71,6 +72,7 @@ public class GymMemberServiceImpl implements GymMemberService {
 
 
     @Override
+  // @Cacheable(value = "members")
     public List<GymMemberDto> getAll() {
         return gymMemberPersistencePort.findAll().stream()
                 .map(gymMemberMapper::toDto)
@@ -78,19 +80,19 @@ public class GymMemberServiceImpl implements GymMemberService {
     }
 
     @Override
-    public GymMemberDto getById(Integer id) {
+    public GymMemberDto getById(Long id) {
         GymMembers entity = gymMemberPersistencePort.findById(id)
                 .orElseThrow(() -> new RuntimeException("Miembro no encontrado con ID: " + id));
         return gymMemberMapper.toDto(entity);
     }
 
     @Override
-    public Optional<GymMembers> getByIdDirect(Integer id) {
+    public Optional<GymMembers> getByIdDirect(Long id) {
         return this.gymMemberPersistencePort.findById(id);
     }
 
     @Override
-    public void delete(Integer id) {
+    public void delete(Long id) {
         if (!gymMemberPersistencePort.findById(id).isPresent()) {
             throw new RuntimeException("No se puede eliminar. Miembro no encontrado con ID: " + id);
         }
@@ -98,7 +100,7 @@ public class GymMemberServiceImpl implements GymMemberService {
     }
 
     @Override
-    public GymMemberDto update(Integer id, GymMemberDto dto) {
+    public GymMemberDto update(Long id, GymMemberDto dto) {
         GymMembers entity = this.gymMemberPersistencePort.
                 findById(id).
                 orElseThrow(() -> new UsernameNotFoundException("USER NOT FOUND + " + id)) ;
@@ -128,7 +130,7 @@ public class GymMemberServiceImpl implements GymMemberService {
     }
 
     @Override
-    public GymMemberFullData getFullDataMember(@Valid Integer userId) {
+    public GymMemberFullData getFullDataMember(@Valid Long userId) {
         return this.gymMemberPersistencePort.getFullData(userId)
                 .orElseThrow(() -> new UsernameNotFoundException("Member not found + " + userId));
     }

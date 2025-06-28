@@ -12,10 +12,10 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-public interface GymMemberCrudRepo extends CrudRepository<GymMembers, Integer> {
-    Optional<GymMembers> findByIdentificationNumber(Integer integer);
+public interface GymMemberCrudRepo extends CrudRepository<GymMembers, Long> {
+    Optional<GymMembers> findByIdentificationNumber(Long integer);
 
-    Boolean existsByIdentificationNumber(Integer id);
+    Boolean existsByIdentificationNumber(Long id);
 
     @Query("""
                 SELECT g FROM GymMembers g
@@ -45,7 +45,7 @@ public interface GymMemberCrudRepo extends CrudRepository<GymMembers, Integer> {
                INNER JOIN membership_entity m ON m.id = s.id_membership
                WHERE g.id_member = :userId
                """)
-    AllDataAboutUser allDataOfUser(@Param("userId") Integer userId);
+    AllDataAboutUser allDataOfUser(@Param("userId") Long userId);
 
     @Query(value = """
         SELECT 

@@ -5,11 +5,13 @@ import com.GymManager.Backend.domain.dto.DashboardDtos.TotalActiveAndInactiveMem
 import com.GymManager.Backend.domain.dto.DashboardDtos.UserTypeloggedInDto;
 import com.GymManager.Backend.domain.dto.SaleAndSuscription.SubscriptionDto;
 import com.GymManager.Backend.domain.dto.SaleAndSuscription.SubscriptionResponse;
+import com.GymManager.Backend.domain.dto.SaleAndSuscription.SubscriptionStatus;
 import com.GymManager.Backend.domain.repository.GymMemberPersistencePort;
 import com.GymManager.Backend.domain.repository.MembresiaRepository;
 import com.GymManager.Backend.domain.repository.SubscriptionPersistencePort;
 import com.GymManager.Backend.domain.service.SubscriptionService;
 import jakarta.validation.Valid;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -44,7 +46,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     }
 
     @Override
-    public SubscriptionResponse getByUser(Integer userId) {
+    public SubscriptionResponse getByUser(Long userId) {
         return this.subscriptionPersistencePort.getByUser(userId);
     }
 
@@ -61,5 +63,10 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     @Override
     public TotalActiveAndInactiveMembers getToTalActiveAndInactiveMembers() {
         return this.subscriptionPersistencePort.findAllToTalActiveAndInactiveMembers();
+    }
+
+    @Override
+    public SubscriptionStatus getStatusSubscription(long dni) {
+        return this.subscriptionPersistencePort.findSubscriptionStatus(dni);
     }
 }

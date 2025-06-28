@@ -56,14 +56,14 @@ public class GymMembersController {
     };
 
     @GetMapping("/getFullData/{id}")
-    public ResponseEntity<GymMemberFullData> getAllByParam(@Valid @PathVariable("id") Integer userId ) {
+    public ResponseEntity<GymMemberFullData> getAllByParam(@Valid @PathVariable("id") Long userId ) {
         return new ResponseEntity<>(this.gymMemberService.getFullDataMember(userId), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getMemberById(@PathVariable String id) {
         try{
-            return new ResponseEntity<>(this.gymMemberService.getById(Integer.parseInt(id)), HttpStatus.OK);
+            return new ResponseEntity<>(this.gymMemberService.getById(Long.parseLong(id)), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -74,7 +74,7 @@ public class GymMembersController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteMember(@PathVariable String id) {
        try{
-           this.gymMemberService.delete(Integer.valueOf(id));
+           this.gymMemberService.delete(Long.parseLong(id));
            return new ResponseEntity<>(HttpStatus.OK);
        } catch (Exception e) {
            e.printStackTrace();
@@ -84,7 +84,7 @@ public class GymMembersController {
     @PutMapping("/{id}")
     public ResponseEntity<?> updateMember(@Valid @PathVariable String id, @Valid @RequestBody GymMemberDto updatedDTO) {
         try {
-            GymMemberDto updated = this.gymMemberService.update(Integer.valueOf(id), updatedDTO);
+            GymMemberDto updated = this.gymMemberService.update(Long.parseLong(id), updatedDTO);
             return new ResponseEntity<>(updated, HttpStatus.OK);
         } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);

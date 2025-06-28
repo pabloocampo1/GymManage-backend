@@ -6,6 +6,7 @@ import com.GymManager.Backend.domain.dto.DashboardDtos.TotalVisitAccessesPerMont
 import com.GymManager.Backend.domain.dto.DashboardDtos.UserTypeloggedInDto;
 import com.GymManager.Backend.domain.dto.SaleAndSuscription.SubscriptionDto;
 import com.GymManager.Backend.domain.dto.SaleAndSuscription.SubscriptionResponse;
+import com.GymManager.Backend.domain.dto.SaleAndSuscription.SubscriptionStatus;
 import com.GymManager.Backend.domain.repository.GymMemberPersistencePort;
 import com.GymManager.Backend.domain.repository.MembresiaRepository;
 import com.GymManager.Backend.domain.repository.SubscriptionPersistencePort;
@@ -16,7 +17,9 @@ import com.GymManager.Backend.persistence.entity.GymMembers;
 import com.GymManager.Backend.persistence.entity.MembershipEntity;
 import com.GymManager.Backend.persistence.entity.SubscriptionEntity;
 import com.GymManager.Backend.persistence.projections.ActiveInactiveCount;
+import com.GymManager.Backend.persistence.projections.SubscriptionStatusView;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
@@ -81,7 +84,7 @@ public class SubscriptionJpaAdapter implements SubscriptionPersistencePort {
     }
 
     @Override
-    public SubscriptionResponse getByUser(Integer userId) {
+    public SubscriptionResponse getByUser(Long userId) {
         SubscriptionEntity subscription =  this.subscriptionCrudRepository.findByMember_idMember(userId)
                 .orElseThrow();
 
@@ -89,12 +92,12 @@ public class SubscriptionJpaAdapter implements SubscriptionPersistencePort {
     }
 
     @Override
-    public boolean existsByMember_IdMember(Integer idMember) {
+    public boolean existsByMember_IdMember(Long idMember) {
         return this.subscriptionCrudRepository.existsByMember_idMember(idMember);
     }
 
     @Override
-    public Optional<SubscriptionEntity> findByMember_IdMember(Integer idMember) {
+    public Optional<SubscriptionEntity> findByMember_IdMember(Long idMember) {
         return this.subscriptionCrudRepository.findByMember_idMember(idMember);
     }
 
@@ -155,6 +158,19 @@ public class SubscriptionJpaAdapter implements SubscriptionPersistencePort {
                 .builder()
                 .activeMembers(objectQuery.getActives())
                 .inactiveMembers(objectQuery.getInactives())
+                .build();
+    }
+
+    @Override
+    public SubscriptionStatus findSubscriptionStatus(Long dni) {
+
+        SubscriptionStatusView infoStatus = this.subscriptionCrudRepository.findStatusSubscriptionByMemberId(dni)
+                .orElseThrow(() -> new UsernameNotFoundException("Member not found with id: "+ dni));
+
+
+        return SubscriptionStatus.builder()
+                .endMembership(infoStatus.getEndSubscription())
+                .statusSubscription(infoStatus.getStatusSubscription())
                 .build();
     }
 

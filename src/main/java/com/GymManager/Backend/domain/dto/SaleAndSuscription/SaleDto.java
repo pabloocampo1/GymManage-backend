@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SaleDto {
-    private Integer userId;
+    private Long userId;
    @NotNull
     private Integer membershipId;
     @NotBlank

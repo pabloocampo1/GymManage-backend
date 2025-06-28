@@ -41,6 +41,7 @@ public class SecurityConfig {
                     sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
                 })
                 .authorizeHttpRequests(request -> {
+                    // Auth
                     request.requestMatchers(HttpMethod.POST, "/api/auth/signIn").permitAll();
                     request.requestMatchers(HttpMethod.GET, "/api/auth/validate/*").permitAll();
                     request.requestMatchers(HttpMethod.GET, "/api/auth/generateResetPasswordToken/**").permitAll();
@@ -48,18 +49,40 @@ public class SecurityConfig {
                     request.requestMatchers(HttpMethod.POST, "/api/user/save").permitAll();
                     request.requestMatchers(HttpMethod.POST, "/api/auth/resetPassword").permitAll();
                     request.requestMatchers(HttpMethod.GET, "/api/auth/isValidTokenResetPassword/*").permitAll();
+
+                    //events
+
                     request.requestMatchers("/api/Eventos/**").permitAll();
-                    request.requestMatchers(HttpMethod.GET, "/api/membership/public").permitAll();
+
+
+                    // member
+
                     request.requestMatchers(HttpMethod.GET, "/api/members/**").hasAnyRole(ROLE_ADMIN, ROLE_SUPERADMIN);
                     request.requestMatchers(HttpMethod.POST, "/api/members/**").hasAnyRole(ROLE_ADMIN, ROLE_SUPERADMIN);
                     request.requestMatchers(HttpMethod.PUT, "/api/members/**").hasAnyRole(ROLE_ADMIN, ROLE_SUPERADMIN);
                     request.requestMatchers(HttpMethod.DELETE, "/api/members/**").hasAnyRole(ROLE_ADMIN, ROLE_SUPERADMIN);
+
+                    // dashboard
                     request.requestMatchers( "/api/dashboard/**").hasAnyRole(ROLE_ADMIN, ROLE_SUPERADMIN);
+
+                    // inventory
                     request.requestMatchers("/api/inventory/**").hasAnyRole(ROLE_ADMIN, ROLE_SUPERADMIN);
+
+                    // memberships
                     request.requestMatchers("/api/membership/**").hasAnyRole(ROLE_ADMIN, ROLE_SUPERADMIN);
+                    request.requestMatchers(HttpMethod.GET, "/api/membership/public").permitAll();
+
+                    // visits
                     request.requestMatchers("/api/visits/**").hasAnyRole(ROLE_ADMIN, ROLE_SUPERADMIN);
+
+                    // activities
                     request.requestMatchers("/api/activity/**").hasAnyRole(ROLE_ADMIN, ROLE_SUPERADMIN);
+
+                    // sales
                     request.requestMatchers("/api/sales/**").hasAnyRole(ROLE_ADMIN, ROLE_SUPERADMIN);
+
+                    // subscription
+                    request.requestMatchers("/api/subscription/request/status/subscription/**").permitAll();
                     request.anyRequest().authenticated();
                 })
                 .httpBasic(Customizer.withDefaults())

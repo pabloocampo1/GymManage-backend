@@ -14,6 +14,6 @@ public class SubscriptionDto {
     @NotNull
     private Integer membershipId;
     @NotNull
-    private Integer userId;
+    private Long userId;
 
 }

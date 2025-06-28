@@ -21,7 +21,7 @@ public class SubscriptionEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_subscription") // nombre de la columna en SQL
+    @Column(name = "id_subscription")
     private Integer subscriptionId;
 
     @OneToOne(fetch = FetchType.LAZY)

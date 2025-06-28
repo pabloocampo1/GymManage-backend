@@ -33,7 +33,7 @@ public class AccessLogServiceImpl implements AccessLogService {
     }
 
     @Override
-    public Boolean save(Integer userId) {
+    public Boolean save(Long userId) {
         try {
             GymMembers gymMember = this.gymMemberService.getByIdDirect(userId)
                     .orElseThrow(() -> new UsernameNotFoundException("User not found"));
