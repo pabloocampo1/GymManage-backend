@@ -40,7 +40,7 @@ public class GymMemberMapper {
                 .fullName(allData.getFullName())
                 .dni(allData.getDni())
                 .dateOfBirth(allData.getDateOfBirth())
-                .phone(allData.getPhone() != null ? allData.getPhone().toString() : null)
+                .phone(allData.getPhone())
                 .email(allData.getEmail())
                 .gender(allData.getGender())
                 .createDate(allData.getCreateDate())

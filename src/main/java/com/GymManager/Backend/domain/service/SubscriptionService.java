@@ -11,10 +11,12 @@ import java.util.List;
 
 public interface SubscriptionService {
     SubscriptionResponse save(SubscriptionDto subscriptionDto);
+    SubscriptionResponse getById(Integer id);
     SubscriptionResponse getByUser(Long userId);
     List<MostUsedActiveMembershipDto> getByMostUsedMembership();
     List<UserTypeloggedInDto> getTypesOfUserLoggedIn();
     TotalActiveAndInactiveMembers getToTalActiveAndInactiveMembers();
-    SubscriptionStatus getStatusSubscription(long dni);
+    SubscriptionStatus getStatusSubscription(Long dni);
+    void generationQrCodeSubscription(Long userDni, String email);
 }
 

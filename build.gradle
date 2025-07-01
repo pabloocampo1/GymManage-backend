@@ -59,6 +59,9 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
 
+	// Qr generation
+	implementation 'com.google.zxing:core:3.5.1'
+	implementation 'com.google.zxing:javase:3.5.1'
 
 
 

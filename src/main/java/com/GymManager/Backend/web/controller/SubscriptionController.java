@@ -1,5 +1,6 @@
 package com.GymManager.Backend.web.controller;
 
+import com.GymManager.Backend.domain.dto.SaleAndSuscription.SubscriptionResponse;
 import com.GymManager.Backend.domain.dto.SaleAndSuscription.SubscriptionStatus;
 import com.GymManager.Backend.domain.service.SubscriptionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,17 @@ public class SubscriptionController {
         try{
             return new ResponseEntity<>(this.subscriptionService.getStatusSubscription(dni), HttpStatus.OK);
         } catch (Exception e) {
+            e.printStackTrace();
+           return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<SubscriptionResponse> getSubscriptionById(@PathVariable("id") Integer id){
+        try{
+            return new ResponseEntity<>(this.subscriptionService.getById(id), HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }

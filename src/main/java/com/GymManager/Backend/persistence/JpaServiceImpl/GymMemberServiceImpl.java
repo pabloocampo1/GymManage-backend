@@ -43,21 +43,25 @@ public class GymMemberServiceImpl implements GymMemberService {
     @Override
     @Transactional
     public GymMemberDto save(GymMemberRequest dto) {
-        if (dto.getGymMemberDto() == null) {
-            throw new IllegalArgumentException("GymMemberDto no puede ser null.");
-        }
-        if (dto.getGymMemberDto().getId() != null) {
-            dto.getGymMemberDto().setId(null);
-        }
-        if (gymMemberPersistencePort.findByIdentificationNumber(dto.getGymMemberDto().getIdentificationNumber()).isPresent()) {
-            throw new UsernameNotFoundException("Miembro ya existe con ID: " + dto.getGymMemberDto().getIdentificationNumber());
-        }
-        GymMembers entity = gymMemberMapper.toEntity(dto.getGymMemberDto());
-        GymMembers savedEntity = gymMemberPersistencePort.save(entity);
+       try {
+           if (dto.getGymMemberDto() == null) {
+               throw new IllegalArgumentException("GymMemberDto no puede ser null.");
+           }
+           if (dto.getGymMemberDto().getId() != null) {
+               dto.getGymMemberDto().setId(null);
+           }
+           if (gymMemberPersistencePort.findByIdentificationNumber(dto.getGymMemberDto().getIdentificationNumber()).isPresent()) {
+               throw new UsernameNotFoundException("Miembro ya existe con ID: " + dto.getGymMemberDto().getIdentificationNumber());
+           }
+           GymMembers entity = gymMemberMapper.toEntity(dto.getGymMemberDto());
+           GymMembers savedEntity = gymMemberPersistencePort.save(entity);
 
-        this.checkAndCreateSale(dto.getSaleDto(), savedEntity);
+           this.checkAndCreateSale(dto.getSaleDto(), savedEntity);
 
-        return gymMemberMapper.toDto(savedEntity);
+           return gymMemberMapper.toDto(savedEntity);
+       } catch (Exception e) {
+           throw new RuntimeException(e);
+       }
     }
 
 

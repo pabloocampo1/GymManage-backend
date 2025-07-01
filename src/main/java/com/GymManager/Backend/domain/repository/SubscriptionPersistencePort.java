@@ -13,6 +13,7 @@ import java.util.Optional;
 
 public interface SubscriptionPersistencePort {
     Boolean existById(Integer id);
+    SubscriptionResponse findById(Integer id);
     List<SubscriptionEntity> findAll();
     SubscriptionResponse save(SubscriptionDto dto);
     void saveDirect(SubscriptionEntity subscription);
@@ -20,10 +21,10 @@ public interface SubscriptionPersistencePort {
     boolean existsByMember_IdMember(Long idMember);
     Optional<SubscriptionEntity> findByMember_IdMember(Long idMember);
     void delete(SubscriptionEntity subscription);
-     // ✔ Para estado = 2 (todos los miembros)
     List<SubscriptionEntity> findByStatus(Boolean status);
     List<MostUsedActiveMembershipDto> findMostUsedMembership();
     List<UserTypeloggedInDto> findTypesOfUserByMonth();
     TotalActiveAndInactiveMembers findAllToTalActiveAndInactiveMembers();
     SubscriptionStatus findSubscriptionStatus(Long dni);
+    void generationQrCodeSubscription(Long userDni, String email);
 }

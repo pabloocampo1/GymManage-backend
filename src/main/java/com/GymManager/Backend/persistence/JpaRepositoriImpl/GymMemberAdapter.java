@@ -27,7 +27,6 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-
 public class GymMemberAdapter implements GymMemberPersistencePort {
     private final GymMemberCrudRepo gymMemberCrudRepo;
     private final SubscriptionPersistencePort subscriptionPersistencePort;
@@ -41,7 +40,11 @@ public class GymMemberAdapter implements GymMemberPersistencePort {
 
     @Override
     public GymMembers save(GymMembers gymMember) {
-        return gymMemberCrudRepo.save(gymMember);
+       try{
+           return gymMemberCrudRepo.save(gymMember);
+       } catch (Exception e) {
+           throw new RuntimeException(e);
+       }
     }
 
     @Override
@@ -60,7 +63,7 @@ public class GymMemberAdapter implements GymMemberPersistencePort {
                 .fullName(allData.getFullName())
                 .dni(allData.getDni())
                 .dateOfBirth(allData.getDateOfBirth())
-                .phone(allData.getPhone() != null ? allData.getPhone().toString() : null)
+                .phone(allData.getPhone())
                 .email(allData.getEmail())
                 .gender(allData.getGender())
                 .createDate(allData.getCreateDate())

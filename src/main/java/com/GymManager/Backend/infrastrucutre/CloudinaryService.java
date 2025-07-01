@@ -35,4 +35,17 @@ public class CloudinaryService {
             throw new IOException("Error al procesar la imagen: " + e.getMessage(), e);
         }
     }
+
+    public String uploadQrToCloudinary(byte[] qrBytes, String publicId) {
+        try {
+            Map uploadResult = cloudinary.uploader().upload(qrBytes, ObjectUtils.asMap(
+                    "resource_type", "image",
+                    "public_id", publicId,
+                    "overwrite", true
+            ));
+            return (String) uploadResult.get("secure_url");
+        } catch (IOException e) {
+            throw new RuntimeException("Error uploading QR to Cloudinary", e);
+        }
+    }
 }

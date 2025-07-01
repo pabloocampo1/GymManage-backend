@@ -7,11 +7,11 @@ import java.time.LocalDateTime;
 
 public interface AllDataAboutUser {
     // personal info
-    Integer getId();
+    Long getId();
     String getFullName();
     String getDni();
     LocalDate getDateOfBirth();
-    Integer getPhone();
+    Long getPhone();
     String getEmail();
     String getGender();
     LocalDateTime getCreateDate();

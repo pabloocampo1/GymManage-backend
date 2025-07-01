@@ -66,4 +66,7 @@ public interface SubscriptionCrudRepository extends CrudRepository<SubscriptionE
 
     @Query(nativeQuery = true, value = "SELECT s.finish_date AS endSubscription, s.status AS statusSubscription FROM subscription s INNER JOIN gym_members g ON g.id_member = s.member_id WHERE g.identification_number = :dni ")
     Optional<SubscriptionStatusView> findStatusSubscriptionByMemberId(@Param("dni") Long dni);
+
+
+    List<SubscriptionEntity> findByStatus(Boolean status);
 }
