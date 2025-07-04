@@ -39,7 +39,7 @@ public class GymMembersController {
         }
     }
 
-    @GetMapping
+    @GetMapping()
     public ResponseEntity<List<GymMemberDto>> getAllMembers() {
         return new ResponseEntity<>(this.gymMemberService.getAll(), HttpStatus.OK);
     }
