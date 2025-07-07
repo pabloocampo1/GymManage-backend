@@ -142,8 +142,7 @@ public class EmailHomeServiceImpl implements EmailPort {
             mailSender.send(message);
             System.out.println("Email enviado correctamente.");
         } catch (MessagingException e) {
-            e.printStackTrace();
-            throw new RuntimeException("Error enviando el correo: " + e.getMessage());
+            return;
         }
     }
 }
