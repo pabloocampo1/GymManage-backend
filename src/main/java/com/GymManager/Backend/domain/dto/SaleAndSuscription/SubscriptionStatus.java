@@ -1,19 +1,17 @@
 package com.GymManager.Backend.domain.dto.SaleAndSuscription;
 
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Data
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
-public class SubscriptionDto {
-    @NotNull
-    private Integer membershipId;
-    @NotNull
-    private Long userId;
-
+@AllArgsConstructor
+public class SubscriptionStatus {
+    private LocalDateTime endMembership;
+    private Boolean statusSubscription;
 }

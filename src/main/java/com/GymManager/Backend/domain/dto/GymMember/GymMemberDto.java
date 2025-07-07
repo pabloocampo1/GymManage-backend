@@ -14,10 +14,10 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class GymMemberDto {
 
-    private Integer id;
+    private Long id;
 
     @NotNull(message = "La identificación es obligatoria.")
-    private Integer identificationNumber;
+    private Long identificationNumber;
 
     @NotBlank(message = "El nombre completo es obligatorio.")
     private String fullName;
@@ -26,7 +26,7 @@ public class GymMemberDto {
     private LocalDate birthDate;
 
     @NotNull(message = "El teléfono es obligatorio.")
-    private Integer phone;
+    private Long phone;
 
     @Email(message = "Correo electrónico inválido.")
     @NotNull
@@ -36,7 +36,7 @@ public class GymMemberDto {
     private String gender;
 
     @NotNull
-    private Integer emergencyPhone;
+    private Long emergencyPhone;
 
 
 }

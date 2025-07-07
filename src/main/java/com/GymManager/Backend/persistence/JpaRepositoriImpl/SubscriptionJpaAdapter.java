@@ -6,17 +6,23 @@ import com.GymManager.Backend.domain.dto.DashboardDtos.TotalVisitAccessesPerMont
 import com.GymManager.Backend.domain.dto.DashboardDtos.UserTypeloggedInDto;
 import com.GymManager.Backend.domain.dto.SaleAndSuscription.SubscriptionDto;
 import com.GymManager.Backend.domain.dto.SaleAndSuscription.SubscriptionResponse;
+import com.GymManager.Backend.domain.dto.SaleAndSuscription.SubscriptionStatus;
 import com.GymManager.Backend.domain.repository.GymMemberPersistencePort;
 import com.GymManager.Backend.domain.repository.MembresiaRepository;
 import com.GymManager.Backend.domain.repository.SubscriptionPersistencePort;
 import com.GymManager.Backend.domain.repository.VisitsPersistencePort;
+import com.GymManager.Backend.infrastrucutre.CloudinaryService;
+import com.GymManager.Backend.persistence.ExternalService.GenerationQrCodeService;
+import com.GymManager.Backend.persistence.JpaServiceImpl.EmailHomeServiceImpl;
 import com.GymManager.Backend.persistence.Mappers.SaleAndSuscriptionMapper.SubscriptionMapper;
 import com.GymManager.Backend.persistence.crudRepository.SubscriptionCrudRepository;
 import com.GymManager.Backend.persistence.entity.GymMembers;
 import com.GymManager.Backend.persistence.entity.MembershipEntity;
 import com.GymManager.Backend.persistence.entity.SubscriptionEntity;
 import com.GymManager.Backend.persistence.projections.ActiveInactiveCount;
+import com.GymManager.Backend.persistence.projections.SubscriptionStatusView;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
@@ -31,19 +37,31 @@ public class SubscriptionJpaAdapter implements SubscriptionPersistencePort {
     private final MembresiaRepository membresiaRepository;
     private final SubscriptionMapper subscriptionMapper;
     private final VisitsPersistencePort visitsPersistencePort;
+    private final GenerationQrCodeService generationQrCodeService;
+    private final CloudinaryService cloudinaryService;
+    private final EmailHomeServiceImpl emailHomeService;
 
     @Autowired
-    public SubscriptionJpaAdapter(SubscriptionCrudRepository subscriptionCrudRepository, GymMemberPersistencePort gymMemberPersistencePort, MembresiaRepository membresiaRepository, SubscriptionMapper subscriptionMapper, VisitsPersistencePort visitsPersistencePort) {
+    public SubscriptionJpaAdapter(SubscriptionCrudRepository subscriptionCrudRepository, GymMemberPersistencePort gymMemberPersistencePort, MembresiaRepository membresiaRepository, SubscriptionMapper subscriptionMapper, VisitsPersistencePort visitsPersistencePort, GenerationQrCodeService generationQrCodeService, CloudinaryService cloudinaryService, EmailHomeServiceImpl emailHomeService) {
         this.subscriptionCrudRepository = subscriptionCrudRepository;
         this.gymMemberPersistencePort = gymMemberPersistencePort;
         this.membresiaRepository = membresiaRepository;
         this.subscriptionMapper = subscriptionMapper;
         this.visitsPersistencePort = visitsPersistencePort;
+        this.generationQrCodeService = generationQrCodeService;
+        this.cloudinaryService = cloudinaryService;
+        this.emailHomeService = emailHomeService;
     }
 
     @Override
     public Boolean existById(Integer id) {
         return this.subscriptionCrudRepository.existsById(id);
+    }
+
+    @Override
+    public SubscriptionResponse findById(Integer id) {
+        SubscriptionEntity subscription = this.subscriptionCrudRepository.findById(id).orElseThrow();
+        return this.subscriptionMapper.suscriptionEntityToResponse(subscription);
     }
 
     @Override
@@ -65,6 +83,8 @@ public class SubscriptionJpaAdapter implements SubscriptionPersistencePort {
             newSubscription.setStartDate(LocalDateTime.now());
             newSubscription.setFinishDate(LocalDateTime.now().plusDays(membership.getDuration()));
             SubscriptionEntity subscriptionSaved = this.subscriptionCrudRepository.save(newSubscription);
+
+            this.generationQrCodeSubscription(member.getIdMember(), member.getEmail());
             return this.subscriptionMapper.suscriptionEntityToResponse(subscriptionSaved);
         }else{
            SubscriptionEntity subscription = this.subscriptionCrudRepository.findByMember_idMember(member.getIdMember())
@@ -77,11 +97,10 @@ public class SubscriptionJpaAdapter implements SubscriptionPersistencePort {
            return this.subscriptionMapper.suscriptionEntityToResponse(subscriptionSaved);
         }
 
-
     }
 
     @Override
-    public SubscriptionResponse getByUser(Integer userId) {
+    public SubscriptionResponse getByUser(Long userId) {
         SubscriptionEntity subscription =  this.subscriptionCrudRepository.findByMember_idMember(userId)
                 .orElseThrow();
 
@@ -89,12 +108,12 @@ public class SubscriptionJpaAdapter implements SubscriptionPersistencePort {
     }
 
     @Override
-    public boolean existsByMember_IdMember(Integer idMember) {
+    public boolean existsByMember_IdMember(Long idMember) {
         return this.subscriptionCrudRepository.existsByMember_idMember(idMember);
     }
 
     @Override
-    public Optional<SubscriptionEntity> findByMember_IdMember(Integer idMember) {
+    public Optional<SubscriptionEntity> findByMember_IdMember(Long idMember) {
         return this.subscriptionCrudRepository.findByMember_idMember(idMember);
     }
 
@@ -158,13 +177,44 @@ public class SubscriptionJpaAdapter implements SubscriptionPersistencePort {
                 .build();
     }
 
+    @Override
+    public SubscriptionStatus findSubscriptionStatus(Long dni) {
+
+        SubscriptionStatusView infoStatus = this.subscriptionCrudRepository.findStatusSubscriptionByMemberId(dni)
+                .orElseThrow(() -> new UsernameNotFoundException("Member not found with id: "+ dni));
+
+
+        return SubscriptionStatus.builder()
+                .endMembership(infoStatus.getEndSubscription())
+                .statusSubscription(infoStatus.getStatusSubscription())
+                .build();
+    }
+
+    @Override
+    public void generationQrCodeSubscription(Long userDni, String email) {
+
+        SubscriptionEntity subscription = this.findByMember_IdMember(userDni)
+                .orElseThrow(() -> new ArithmeticException("El usuario no tiene una membresia en el gymnasio."));
+
+        Integer id_subscription = subscription.getSubscriptionId();
+        String public_id = "qr_id" + id_subscription;
+
+        byte[] qr = this.generationQrCodeService.generateQrCode(subscription.getSubscriptionId().toString());
+
+        String linkQr = this.cloudinaryService.uploadQrToCloudinary(qr, public_id);
+
+        this.emailHomeService.sendQrCodeEmail(email, linkQr);
+        System.out.println(linkQr);
+    }
+
 
     // esta funcion solo es para la actualizacion de las membresias en el schedule que actualiza las membresias.
     public void saveDirect(SubscriptionEntity subscription) {
         this.subscriptionCrudRepository.save(subscription);
     }
+
     @Override
     public List<SubscriptionEntity> findByStatus(Boolean status) {
-        return subscriptionCrudRepository.findByStatus(status);
+        return this.subscriptionCrudRepository.findByStatus(status);
     }
 }

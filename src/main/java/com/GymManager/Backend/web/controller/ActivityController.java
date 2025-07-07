@@ -49,8 +49,8 @@ public class ActivityController {
                     AccessLogEntity accessLogEntity = new AccessLogEntity();
                     GymMembers gymMembers = new GymMembers();
                     gymMembers.setFullName(regularVisitEntity.getFullName());
-                    gymMembers.setIdentificationNumber(Integer.valueOf(String.valueOf(regularVisitEntity.getDocumentId())));
-                    gymMembers.setPhone(Math.toIntExact(regularVisitEntity.getPhoneNumber()));
+                    gymMembers.setIdentificationNumber(regularVisitEntity.getDocumentId());
+                    gymMembers.setPhone(regularVisitEntity.getPhoneNumber());
                     accessLogEntity.setUser(gymMembers);
                     accessLogEntity.setCreateDate(regularVisitEntity.getVisitDate());
                     accessLogEntity.setIdAccessLog(Math.toIntExact(regularVisitEntity.getId()));
@@ -71,8 +71,8 @@ public class ActivityController {
                     AccessLogEntity accessLogEntity = new AccessLogEntity();
                     GymMembers gymMembers = new GymMembers();
                     gymMembers.setFullName(regularVisitEntity.getFullName());
-                    gymMembers.setIdentificationNumber(Integer.valueOf(String.valueOf(regularVisitEntity.getDocumentId())));
-                    gymMembers.setPhone(Math.toIntExact(regularVisitEntity.getPhoneNumber()));
+                    gymMembers.setIdentificationNumber(regularVisitEntity.getDocumentId());
+                    gymMembers.setPhone(regularVisitEntity.getPhoneNumber());
                     accessLogEntity.setUser(gymMembers);
                     accessLogEntity.setCreateDate(regularVisitEntity.getVisitDate());
                     accessLogEntity.setIdAccessLog(Math.toIntExact(regularVisitEntity.getId()));
@@ -92,8 +92,8 @@ public class ActivityController {
                     AccessLogEntity accessLogEntity = new AccessLogEntity();
                     GymMembers gymMembers = new GymMembers();
                     gymMembers.setFullName(regularVisitEntity.getFullName());
-                    gymMembers.setIdentificationNumber(Integer.valueOf(String.valueOf(regularVisitEntity.getDocumentId())));
-                    gymMembers.setPhone(Math.toIntExact(regularVisitEntity.getPhoneNumber()));
+                    gymMembers.setIdentificationNumber(regularVisitEntity.getDocumentId());
+                    gymMembers.setPhone(regularVisitEntity.getPhoneNumber());
                     accessLogEntity.setUser(gymMembers);
                     accessLogEntity.setCreateDate(regularVisitEntity.getVisitDate());
                     accessLogEntity.setIdAccessLog(Math.toIntExact(regularVisitEntity.getId()));
@@ -118,8 +118,8 @@ public class ActivityController {
                     AccessLogEntity accessLogEntity = new AccessLogEntity();
                     GymMembers gymMembers = new GymMembers();
                     gymMembers.setFullName(regularVisitEntity.getFullName());
-                    gymMembers.setIdentificationNumber(Integer.valueOf(String.valueOf(regularVisitEntity.getDocumentId())));
-                    gymMembers.setPhone(Math.toIntExact(regularVisitEntity.getPhoneNumber()));
+                    gymMembers.setIdentificationNumber(regularVisitEntity.getDocumentId());
+                    gymMembers.setPhone(regularVisitEntity.getPhoneNumber());
                     accessLogEntity.setUser(gymMembers);
                     accessLogEntity.setCreateDate(regularVisitEntity.getVisitDate());
                     accessLogEntity.setIdAccessLog(Math.toIntExact(regularVisitEntity.getId()));

@@ -27,7 +27,6 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-
 public class GymMemberAdapter implements GymMemberPersistencePort {
     private final GymMemberCrudRepo gymMemberCrudRepo;
     private final SubscriptionPersistencePort subscriptionPersistencePort;
@@ -41,16 +40,20 @@ public class GymMemberAdapter implements GymMemberPersistencePort {
 
     @Override
     public GymMembers save(GymMembers gymMember) {
-        return gymMemberCrudRepo.save(gymMember);
+       try{
+           return gymMemberCrudRepo.save(gymMember);
+       } catch (Exception e) {
+           throw new RuntimeException(e);
+       }
     }
 
     @Override
-    public Optional<GymMembers> findById(Integer id) {
+    public Optional<GymMembers> findById(Long id) {
         return gymMemberCrudRepo.findById(id);
     }
 
     @Override
-    public Optional<GymMemberFullData> getFullData(Integer id) {
+    public Optional<GymMemberFullData> getFullData(Long id) {
         AllDataAboutUser allData = this.gymMemberCrudRepo.allDataOfUser(id);
         if (allData == null) {
             return Optional.empty();
@@ -60,7 +63,7 @@ public class GymMemberAdapter implements GymMemberPersistencePort {
                 .fullName(allData.getFullName())
                 .dni(allData.getDni())
                 .dateOfBirth(allData.getDateOfBirth())
-                .phone(allData.getPhone() != null ? allData.getPhone().toString() : null)
+                .phone(allData.getPhone())
                 .email(allData.getEmail())
                 .gender(allData.getGender())
                 .createDate(allData.getCreateDate())
@@ -75,7 +78,7 @@ public class GymMemberAdapter implements GymMemberPersistencePort {
     }
 
     @Override
-    public Optional<GymMembers> findByIdentificationNumber(Integer id) {
+    public Optional<GymMembers> findByIdentificationNumber(Long id) {
         return this.gymMemberCrudRepo.findByIdentificationNumber(id);
     }
 
@@ -91,7 +94,7 @@ public class GymMemberAdapter implements GymMemberPersistencePort {
 
     @Override
     @Transactional
-    public void deleteById(Integer id) {
+    public void deleteById(Long id) {
         this.subscriptionPersistencePort.findByMember_IdMember(id).ifPresent(this.subscriptionPersistencePort::delete);
         gymMemberCrudRepo.deleteById(id);
     }
@@ -102,12 +105,12 @@ public class GymMemberAdapter implements GymMemberPersistencePort {
     }
 
     @Override
-    public Boolean existById(Integer id) {
+    public Boolean existById(Long id) {
         return this.gymMemberCrudRepo.existsById(id);
     }
 
     @Override
-    public Boolean existByIdentification(Integer id) {
+    public Boolean existByIdentification(Long id) {
         return this.gymMemberCrudRepo.existsByIdentificationNumber(id);
     }
 

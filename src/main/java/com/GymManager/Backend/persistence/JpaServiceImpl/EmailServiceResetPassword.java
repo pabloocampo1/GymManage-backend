@@ -30,7 +30,7 @@ public class EmailServiceResetPassword {
                     "<p style='margin-top:20px;'>Este enlace expirará en 5 minutos.</p>" +
                     "</body>" +
                     "</html>";
-
+            System.out.println(htmlBody);
             helper.setFrom("gymmman3@gmail.com");
             helper.setTo(to);
             helper.setSubject(subject);

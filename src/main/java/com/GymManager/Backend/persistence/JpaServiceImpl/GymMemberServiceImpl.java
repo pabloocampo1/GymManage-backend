@@ -16,6 +16,8 @@ import com.GymManager.Backend.persistence.entity.GymMembers;
 import com.GymManager.Backend.persistence.projections.AllDataAboutUser;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,24 +43,29 @@ public class GymMemberServiceImpl implements GymMemberService {
 
     @Override
     @Transactional
+    // no borrar esto, pasenlo en el commit
+    // @CacheEvict(value = "members", allEntries = true)
     public GymMemberDto save(GymMemberRequest dto) {
-        if (dto.getGymMemberDto() == null) {
-            throw new IllegalArgumentException("GymMemberDto no puede ser null.");
-        }
-        if (dto.getGymMemberDto().getId() != null) {
-            dto.getGymMemberDto().setId(null);
-        }
-        if (gymMemberPersistencePort.findByIdentificationNumber(dto.getGymMemberDto().getIdentificationNumber()).isPresent()) {
-            throw new UsernameNotFoundException("Miembro ya existe con ID: " + dto.getGymMemberDto().getIdentificationNumber());
-        }
-        GymMembers entity = gymMemberMapper.toEntity(dto.getGymMemberDto());
-        GymMembers savedEntity = gymMemberPersistencePort.save(entity);
+        try {
+            if (dto.getGymMemberDto() == null) {
+                throw new IllegalArgumentException("GymMemberDto no puede ser null.");
+            }
+            if (dto.getGymMemberDto().getId() != null) {
+                dto.getGymMemberDto().setId(null);
+            }
+            if (gymMemberPersistencePort.findByIdentificationNumber(dto.getGymMemberDto().getIdentificationNumber()).isPresent()) {
+                throw new UsernameNotFoundException("Miembro ya existe con ID: " + dto.getGymMemberDto().getIdentificationNumber());
+            }
+            GymMembers entity = gymMemberMapper.toEntity(dto.getGymMemberDto());
+            GymMembers savedEntity = gymMemberPersistencePort.save(entity);
 
-        this.checkAndCreateSale(dto.getSaleDto(), savedEntity);
+            this.checkAndCreateSale(dto.getSaleDto(), savedEntity);
 
-        return gymMemberMapper.toDto(savedEntity);
+            return gymMemberMapper.toDto(savedEntity);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
-
 
 
     @Transactional
@@ -71,26 +78,35 @@ public class GymMemberServiceImpl implements GymMemberService {
 
 
     @Override
+    // no borrar esto, pasenlo en el commit
+   //  @Cacheable(value = "members")
     public List<GymMemberDto> getAll() {
+        System.out.println("Se ejecuta el método y NO el caché");
         return gymMemberPersistencePort.findAll().stream()
                 .map(gymMemberMapper::toDto)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public GymMemberDto getById(Integer id) {
+    // @Cacheable(value = "members", key = "#id")
+    // no borrar esto, pasenlo en el commit
+    public GymMemberDto getById(Long id) {
         GymMembers entity = gymMemberPersistencePort.findById(id)
                 .orElseThrow(() -> new RuntimeException("Miembro no encontrado con ID: " + id));
         return gymMemberMapper.toDto(entity);
     }
 
     @Override
-    public Optional<GymMembers> getByIdDirect(Integer id) {
+    // no borrar esto, pasenlo en el commit
+   // @Cacheable(value = "members", key = "#id")
+    public Optional<GymMembers> getByIdDirect(Long id) {
         return this.gymMemberPersistencePort.findById(id);
     }
 
     @Override
-    public void delete(Integer id) {
+    // no borrar esto, pasenlo en el commit
+    // @CacheEvict(value = "members", allEntries = true)
+    public void delete(Long id) {
         if (!gymMemberPersistencePort.findById(id).isPresent()) {
             throw new RuntimeException("No se puede eliminar. Miembro no encontrado con ID: " + id);
         }
@@ -98,10 +114,12 @@ public class GymMemberServiceImpl implements GymMemberService {
     }
 
     @Override
-    public GymMemberDto update(Integer id, GymMemberDto dto) {
+    // no borrar esto, pasenlo en el commit
+   /// @CacheEvict(value = "members", allEntries = true)
+    public GymMemberDto update(Long id, GymMemberDto dto) {
         GymMembers entity = this.gymMemberPersistencePort.
                 findById(id).
-                orElseThrow(() -> new UsernameNotFoundException("USER NOT FOUND + " + id)) ;
+                orElseThrow(() -> new UsernameNotFoundException("USER NOT FOUND + " + id));
 
         entity.setFullName(dto.getFullName());
         entity.setBirthDate(dto.getBirthDate());
@@ -111,24 +129,26 @@ public class GymMemberServiceImpl implements GymMemberService {
         entity.setEmergencyPhone(dto.getEmergencyPhone());
         entity.setIdentificationNumber(dto.getIdentificationNumber());
 
-        GymMembers entitySaved =  this.gymMemberPersistencePort.save(entity);
+        GymMembers entitySaved = this.gymMemberPersistencePort.save(entity);
         return gymMemberMapper.toDto(entitySaved);
     }
 
     @Override
+    // no borrar esto, pasenlo en el commit
+   // @Cacheable(value = "members", key = "#param")
     public List<SubscriptionResponse> getAllByParam(String param) {
         List<GymMembers> members = this.gymMemberPersistencePort.findAllByParam(param);
 
         List<SubscriptionResponse> responseSubscriptions = members.stream().map(member -> {
             SubscriptionResponse subscriptionByUser = this.subscriptionService.getByUser(member.getIdMember());
             return subscriptionByUser;
-        }).toList() ;
+        }).toList();
 
         return responseSubscriptions;
     }
 
     @Override
-    public GymMemberFullData getFullDataMember(@Valid Integer userId) {
+    public GymMemberFullData getFullDataMember(@Valid Long userId) {
         return this.gymMemberPersistencePort.getFullData(userId)
                 .orElseThrow(() -> new UsernameNotFoundException("Member not found + " + userId));
     }

@@ -25,7 +25,7 @@ public class AccessLogController {
     }
 
     @GetMapping("/save/{userId}")
-    public ResponseEntity<Boolean> save(@Valid @PathVariable("userId") Integer userId) {
+    public ResponseEntity<Boolean> save(@Valid @PathVariable("userId") Long userId) {
         try{
             return ResponseEntity.ok().body(this.accessLogService.save(userId));
         } catch (Exception e) {

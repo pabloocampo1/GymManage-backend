@@ -10,6 +10,7 @@ import com.GymManager.Backend.persistence.entity.SubscriptionEntity;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -24,7 +25,7 @@ public class EmailHomeServiceImpl implements EmailPort {
     private static final String DESTINATION_EMAIL = "marinsantiagosmmg@gmail.com";
 
     public EmailHomeServiceImpl(JavaMailSender mailSender,
-                                SubscriptionPersistencePort subscriptionRepository,
+                               @Lazy SubscriptionPersistencePort subscriptionRepository,
                                 GymMemberPersistencePort gymMembersRepository) {
         this.mailSender = mailSender;
         this.subscriptionRepository = subscriptionRepository;
@@ -118,6 +119,31 @@ public class EmailHomeServiceImpl implements EmailPort {
                 e.printStackTrace();
                 System.err.println("Error al enviar el correo a " + member.getEmail() + ": " + e.getMessage());
             }
+        }
+    }
+
+    public void sendQrCodeEmail(String to, String qrUrl) {
+        try {
+            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+
+            helper.setTo(to);
+            helper.setSubject("Tu código QR de acceso al gimnasio vallhalla");
+            helper.setText(
+                    "<h3>¡Hola!</h3>" +
+                            "<p>Gracias por tu suscripción. Aquí tienes tu código QR:</p>" +
+                            "<p><a href='" + qrUrl + "'>Ver QR</a></p>" +
+                            "<img src='" + qrUrl + "' alt='QR Code' style='width:200px;height:200px;'/>" +
+                            "<p>Puedes usar este qr en nuestras instalaciones para el control de acceso</p>",
+
+                    true
+            );
+
+            mailSender.send(message);
+            System.out.println("Email enviado correctamente.");
+        } catch (MessagingException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Error enviando el correo: " + e.getMessage());
         }
     }
 }

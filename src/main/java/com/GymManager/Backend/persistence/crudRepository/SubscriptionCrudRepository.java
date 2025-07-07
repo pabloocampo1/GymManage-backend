@@ -3,21 +3,19 @@ package com.GymManager.Backend.persistence.crudRepository;
 import com.GymManager.Backend.domain.dto.DashboardDtos.TotalActiveAndInactiveMembers;
 import com.GymManager.Backend.persistence.entity.SubscriptionEntity;
 import com.GymManager.Backend.persistence.projections.ActiveInactiveCount;
+import com.GymManager.Backend.persistence.projections.SubscriptionStatusView;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
-import java.util.List;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 public interface SubscriptionCrudRepository extends CrudRepository<SubscriptionEntity, Integer> {
+    boolean existsByMember_idMember(Long idMember);
 
-
-    Optional<SubscriptionEntity> findByMember_idMember(Integer idMember);
-    boolean existsByMember_idMember(Integer idMember);
-    List<SubscriptionEntity> findByStatus(Boolean status);
+    Optional<SubscriptionEntity> findByMember_idMember(Long idMember);
 
     @Query(value = """
             SELECT 
@@ -64,4 +62,11 @@ public interface SubscriptionCrudRepository extends CrudRepository<SubscriptionE
             
             """, nativeQuery = true)
     ActiveInactiveCount findAllActiveAndInactive(@Param("year") int year );
+
+
+    @Query(nativeQuery = true, value = "SELECT s.finish_date AS endSubscription, s.status AS statusSubscription FROM subscription s INNER JOIN gym_members g ON g.id_member = s.member_id WHERE g.identification_number = :dni ")
+    Optional<SubscriptionStatusView> findStatusSubscriptionByMemberId(@Param("dni") Long dni);
+
+
+    List<SubscriptionEntity> findByStatus(Boolean status);
 }

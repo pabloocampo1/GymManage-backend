@@ -13,11 +13,11 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class GymMemberFullData {
-    private Integer id;
+    private Long id;
     private String fullName;
     private String dni;
     private LocalDate dateOfBirth;
-    private String phone;
+    private Long phone;
     private String email;
     private String gender;
     private LocalDateTime createDate;

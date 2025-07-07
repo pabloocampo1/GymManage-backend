@@ -106,10 +106,10 @@ public class SaleServiceImple implements SaleService {
                 .orElseThrow(() -> new RuntimeException("Membership regular no exist. "));
 
         SaleRegisterEntity newSale = new SaleRegisterEntity();
-        newSale.setMember(membershipRegular.getId());
+        newSale.setMember(membershipRegular.getId().longValue());
         newSale.setAmount(membershipRegular.getPrice());
         newSale.setMembership(membershipRegular.getId());
-        newSale.setPaymentMethod("Efectivo");
+        newSale.setPaymentMethod("Sistema");
         newSale.setReceptionistName("Sistema");
 
        this.salePersitencePort.saveSaleDirect(newSale);
