@@ -81,7 +81,7 @@ public class AuthService {
                     .builder()
                     .message("logged success")
                     .username(user.getUsername())
-
+                    .email(userService.getEmailByUser(user.getUsername()))
                     .role(role)
                     .jwt(jwt)
                     .status(true)
