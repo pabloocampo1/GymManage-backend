@@ -21,6 +21,7 @@ public class GymMemberFullData {
     private Long phone;
     private String email;
     private String gender;
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime createDate;
 
     private String nameMembership;
