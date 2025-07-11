@@ -8,4 +8,5 @@ public interface UserRepository {
     UserResponseDto save(UserRequestDto userRequestDto);
     UserEntity findByUserByEmail(String email);
     UserEntity updateUser(UserEntity user);
+    UserEntity findByUsername(String username);
 }

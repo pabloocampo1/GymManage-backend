@@ -2,6 +2,7 @@ package com.GymManager.Backend.web.controller.Auth;
 
 import com.GymManager.Backend.domain.dto.Auth.AuthRequestDto;
 import com.GymManager.Backend.domain.dto.Auth.AuthResponseDto;
+import com.GymManager.Backend.domain.dto.Auth.ChangePasswordProfileDto;
 import com.GymManager.Backend.domain.dto.Auth.ResetPasswordDto;
 import com.GymManager.Backend.persistence.JpaServiceImpl.EmailServiceResetPassword;
 import com.GymManager.Backend.persistence.JpaServiceImpl.auth.AuthService;
@@ -11,6 +12,7 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.google.api.client.googleapis.auth.oauth2.GooglePublicKeysManager;
 import com.google.api.client.http.javanet.NetHttpTransport;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -108,6 +110,17 @@ public class AuthController {
         try{
             return new ResponseEntity<>(this.authService.resetPassword(resetPasswordDto), HttpStatus.OK);
         }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping("/resetPassword/profile")
+    public ResponseEntity<Void> resetPasswordProfile(@RequestBody @Valid ChangePasswordProfileDto changePasswordProfileDto){
+        try{
+            this.authService.resetPasswordProfile(changePasswordProfileDto);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }catch (Exception e){
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }

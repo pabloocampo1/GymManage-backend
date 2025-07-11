@@ -1,6 +1,7 @@
 package com.GymManager.Backend.persistence.crudRepository;
 
 import com.GymManager.Backend.persistence.entity.UserEntity;
+import org.apache.catalina.User;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.Optional;

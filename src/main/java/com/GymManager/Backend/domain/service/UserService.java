@@ -8,4 +8,5 @@ public interface UserService {
     UserResponseDto saveUser(UserRequestDto user);
     UserEntity getUserByEmail(String email);
     UserEntity updateUser(UserEntity userEntity);
+    UserEntity getByUsername(String username);
 }

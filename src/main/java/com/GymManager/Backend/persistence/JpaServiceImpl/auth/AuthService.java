@@ -2,6 +2,7 @@ package com.GymManager.Backend.persistence.JpaServiceImpl.auth;
 
 import com.GymManager.Backend.domain.dto.Auth.AuthRequestDto;
 import com.GymManager.Backend.domain.dto.Auth.AuthResponseDto;
+import com.GymManager.Backend.domain.dto.Auth.ChangePasswordProfileDto;
 import com.GymManager.Backend.domain.dto.Auth.ResetPasswordDto;
 import com.GymManager.Backend.domain.dto.user.UserResponseDto;
 import com.GymManager.Backend.persistence.JpaServiceImpl.EmailServiceResetPassword;
@@ -160,6 +161,34 @@ public class AuthService {
             throw new RuntimeException(e);
         }
     }
+
+    @Transactional
+    public void resetPasswordProfile(@Valid ChangePasswordProfileDto dto) {
+        if (!jwtUtils.isValidJwt(dto.getJwt())) {
+            throw new SecurityException("JWT inválido.");
+        }
+
+        String usernameFromJwt = jwtUtils.getUser(dto.getJwt());
+        UserEntity user = userService.getByUsername(usernameFromJwt);
+        System.out.println("user mano    "+ user);
+
+        // verificar que el username en el body es el mismo del token
+        if (!usernameFromJwt.equals(dto.getUsername())) {
+            throw new SecurityException("El usuario no coincide con el token.");
+        }
+        // Validación de contraseña
+        if (dto.getPassword().length() < 6) {
+            throw new IllegalArgumentException("La contraseña debe tener al menos 6 caracteres.");
+        }
+
+        if (passwordEncoder.matches(dto.getPassword(), user.getPassword())) {
+            throw new IllegalArgumentException("La nueva contraseña no puede ser igual a la anterior.");
+        }
+
+        user.setPassword(passwordEncoder.encode(dto.getPassword()));
+        userService.updateUser(user); // ya persististe, si falla lanza excepción
+    }
+
 
     public Boolean isValidTokenResetPassword(String token){
         this.resetPasswordTokenRepository.deleteByExpirateDateBefore(new Date());

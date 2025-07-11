@@ -9,6 +9,7 @@ import com.GymManager.Backend.persistence.crudRepository.RoleUserCrudRepository;
 import com.GymManager.Backend.persistence.crudRepository.UserCrudRepository;
 import com.GymManager.Backend.persistence.entity.RoleUserEntity;
 import com.GymManager.Backend.persistence.entity.UserEntity;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -43,6 +44,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserEntity updateUser(UserEntity userEntity) {
        return this.userRepository.updateUser(userEntity);
+    }
+
+    @Override
+    public UserEntity getByUsername(@Valid String username) {
+        return this.userRepository.findByUsername(username);
     }
 
     public String getEmailByUser(String username){

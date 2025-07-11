@@ -59,6 +59,12 @@ public class UserRepositoryImpl implements UserRepository {
         return this.userCrudRepository.save(user);
     }
 
+    @Override
+    public UserEntity findByUsername(String username) {
+        return this.userCrudRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("username no found: " + username));
+    }
+
 
     public String getEmailByUsername(String username){
         return this.userCrudRepository.findByUsername(username)
