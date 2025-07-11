@@ -7,6 +7,7 @@ import com.GymManager.Backend.persistence.crudRepository.MembresiaCrudRepo;
 import com.GymManager.Backend.persistence.entity.MembershipEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,6 +20,7 @@ public class MembresiaRepositoryImpl implements MembresiaRepository {
 
     @Override
     public MembershipEntity save(MembershipEntity membresia) {
+        membresia.setAvailable(true);
         return this.crudRepository.save(membresia);
     }
 
@@ -29,7 +31,7 @@ public class MembresiaRepositoryImpl implements MembresiaRepository {
 
     @Override
     public List<MembershipEntity> findAll() {
-        return crudRepository.findAll();
+        return crudRepository.findAllByAvailableTrue();
     }
 
     @Override
@@ -49,6 +51,9 @@ public class MembresiaRepositoryImpl implements MembresiaRepository {
 
     @Override
     public void deleteById(Integer id) {
-        this.crudRepository.deleteById(id);
+        if(!this.crudRepository.existsById(id)){
+            throw  new RuntimeException("membership no exist.");
+        }
+        this.crudRepository.ChangeState(id);
     }
 }

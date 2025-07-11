@@ -1,5 +1,6 @@
 package com.GymManager.Backend.persistence.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -28,6 +29,7 @@ public class AccessLogEntity {
     private GymMembers user;
 
     @CreatedDate
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime createDate;
 
 }

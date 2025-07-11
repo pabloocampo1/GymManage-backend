@@ -68,6 +68,7 @@ public class MembresiaServiceImpl implements MembresiaService {
     }
 
     @Override
+    @Transactional
     public void delete(Integer id) {
         membresiaRepository.deleteById(id);
     }
