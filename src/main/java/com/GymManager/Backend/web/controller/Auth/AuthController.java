@@ -86,11 +86,11 @@ public class AuthController {
                         .orElseThrow();
                 String jwt = this.authService.createjwt(user.getUsername(), "ROLE_"+ user.getRole().getNameRole());
 
-
                 return ResponseEntity.ok( AuthResponseDto
                         .builder()
                         .message("logged success")
                         .username(user.getUsername())
+                        .email(user.getEmail())
                         .role("ROLE_"+user.getRole().getNameRole())
                         .jwt(jwt)
                         .status(true)

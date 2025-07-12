@@ -12,13 +12,11 @@ import java.util.List;
 
 @Configuration
 public class CorsConfig {
-
     @Bean
     public CorsConfigurationSource corsConfigurationSource () {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(List.of("*"));
         configuration.setAllowedMethods(List.of("POST", "DELETE", "UPDATE", "GET", "PUT"));
-
         configuration.setAllowedHeaders(List.of("*"));
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
