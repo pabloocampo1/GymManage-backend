@@ -10,8 +10,11 @@ version = '0.0.1-SNAPSHOT'
 java {
 	toolchain {
 		languageVersion = JavaLanguageVersion.of(17)
+
 	}
 }
+
+sourceCompatibility = '17'
 
 configurations {
 	compileOnly {
@@ -31,43 +34,36 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
 
-
-
 	// MySQL Connector
 	runtimeOnly 'com.mysql:mysql-connector-j'
 
 	// Cloudinary
 	implementation 'com.cloudinary:cloudinary-http44:1.37.0'
 
-	// Lombok for reducing boilerplate code
+	// Lombok
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 
-	// Testing dependencies
+	// Testing
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
-	// Mail functionality
+	// Mail
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
 
-	// JWT AND AUTHENTICATION WITH GOOGLE
+	// JWT & Google Auth
 	implementation 'com.google.http-client:google-http-client-jackson2:1.43.3'
 	implementation 'com.google.api-client:google-api-client:2.2.0'
 	implementation 'com.auth0:java-jwt:4.4.0'
-
 
 	// Redis
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 	implementation 'org.springframework.boot:spring-boot-starter-cache'
 
-
-	// Qr generation
+	// QR generation
 	implementation 'com.google.zxing:core:3.5.1'
 	implementation 'com.google.zxing:javase:3.5.1'
-
-
-
 }
 
 tasks.named('test') {
