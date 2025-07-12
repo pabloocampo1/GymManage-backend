@@ -14,7 +14,7 @@ java {
 	}
 }
 
-sourceCompatibility = '17'
+
 
 configurations {
 	compileOnly {
