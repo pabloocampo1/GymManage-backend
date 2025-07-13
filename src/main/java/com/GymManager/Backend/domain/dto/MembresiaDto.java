@@ -18,6 +18,8 @@ public class MembresiaDto {
     public String type;
     public Integer duration;
     public double price;
+
+    @Builder.Default
     public List<String> benefits = new ArrayList<>();
     public Boolean available;
 }

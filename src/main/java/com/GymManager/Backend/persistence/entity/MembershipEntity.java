@@ -43,6 +43,7 @@ public class MembershipEntity {
     @CollectionTable(name = "membership_benefits", 
                     joinColumns = @JoinColumn(name = "membership_id"))
     @Column(name = "benefit")
+    @Builder.Default
     private List<String> benefits = new ArrayList<>();
 
     @CreatedDate
@@ -51,6 +52,7 @@ public class MembershipEntity {
     @LastModifiedDate
     private LocalDateTime updateDate;
 
+    @Builder.Default
     private Boolean available = true;
 
     @OneToMany(mappedBy = "membership")
