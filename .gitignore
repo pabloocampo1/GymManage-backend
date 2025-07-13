@@ -1,38 +1,51 @@
-HELP.md
-.gradle
-application.properties
-build/
+# ❌ Ignora el directorio de Gradle cache
+.gradle/
+
+# ✅ Incluye el wrapper necesario para builds remotos
 !gradle/wrapper/gradle-wrapper.jar
+!gradle/wrapper/gradle-wrapper.properties
+!gradlew
+!gradlew.bat
+
+# ❌ Ignora carpetas de build (generadas)
+build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
-### STS ###
+# ❌ Ignora archivos generados por IDEs
 .apt_generated
 .classpath
 .factorypath
 .project
-.settings
+.settings/
 .springBeans
 .sts4-cache
-bin/
-!**/src/main/**/bin/
-!**/src/test/**/bin/
-
-### IntelliJ IDEA ###
-.idea
+.idea/
 *.iws
 *.iml
 *.ipr
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
+bin/
+!**/src/main/**/bin/
+!**/src/test/**/bin/
 
-### NetBeans ###
+# ❌ NetBeans
 /nbproject/private/
 /nbbuild/
 /dist/
 /nbdist/
 /.nb-gradle/
 
-### VS Code ###
+# ❌ VS Code
 .vscode/
+
+# ❌ Configuración local que no debe subirse
+application.properties
+
+# ✅ Incluye explícitamente archivos esenciales para Railway
+!build.gradle
+!settings.gradle
+!.java-version
+!*.jar
