@@ -66,3 +66,8 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+springBoot {
+	mainClass = 'com.GymManager.Backend.BackendApplication' // Asegúrate que este sea el nombre correcto
+
+}
